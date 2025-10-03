@@ -8,7 +8,8 @@ import NotFound from "./pages/NotFound";
 import CpfGeneratorPage from "./pages/CpfGeneratorPage";
 import CnpjGeneratorPage from "./pages/CnpjGeneratorPage";
 import PasswordGeneratorPage from "./pages/PasswordGeneratorPage";
-import CreditCardGeneratorPage from "./pages/CreditCardGeneratorPage"; // New import
+import CreditCardGeneratorPage from "./pages/CreditCardGeneratorPage";
+import { GtmPageViewTracker } from "./components/GtmPageViewTracker"; // New import
 
 const queryClient = new QueryClient();
 
@@ -18,12 +19,13 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <GtmPageViewTracker /> {/* Add GtmPageViewTracker here */}
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/cpf-generator" element={<CpfGeneratorPage />} />
           <Route path="/cnpj-generator" element={<CnpjGeneratorPage />} />
           <Route path="/password-generator" element={<PasswordGeneratorPage />} />
-          <Route path="/credit-card-generator" element={<CreditCardGeneratorPage />} /> {/* NEW ROUTE */}
+          <Route path="/credit-card-generator" element={<CreditCardGeneratorPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
