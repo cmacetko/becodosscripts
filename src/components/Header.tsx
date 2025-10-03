@@ -28,13 +28,13 @@ export const Header = () => {
           {navItems.map((item) => (
             <Button
               key={item.path}
-              variant="ghost" // Alterado para sempre ser 'ghost'
+              variant="ghost"
               asChild
             >
               <Link
                 to={item.path}
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary text-muted-foreground"
+                  "text-sm font-medium transition-colors text-foreground hover:text-primary"
                 )}
               >
                 {item.name}
