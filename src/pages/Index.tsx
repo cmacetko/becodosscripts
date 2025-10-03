@@ -70,10 +70,10 @@ const Index = () => {
             <div className="absolute inset-0 bg-black opacity-50 rounded-lg"></div> {/* Overlay para legibilidade */}
             <CardHeader className="flex flex-col items-center p-0 mb-4 z-10">
               <BookOpenText className="h-8 w-8 text-primary-foreground" />
-              <CardTitle className="mt-4 text-xl">Explore meu Blog de Desenvolvimento</CardTitle>
+              <CardTitle className="mt-4 text-xl text-primary-foreground">Explore meu Blog de Desenvolvimento</CardTitle>
             </CardHeader>
             <CardContent className="p-0 mb-4 z-10">
-              <p>Encontre artigos técnicos, tutoriais e insights sobre desenvolvimento web e muito mais.</p>
+              <p className="text-primary-foreground">Encontre artigos técnicos, tutoriais e insights sobre desenvolvimento web e muito mais.</p>
             </CardContent>
             <Button asChild variant="secondary" className="z-10">
               <a href="https://www.palomamacetko.com.br/" target="_blank" rel="noopener noreferrer">
