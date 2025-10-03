@@ -13,6 +13,7 @@ export const Header = () => {
     { name: "Gerador de CPF", path: "/cpf-generator" },
     { name: "Gerador de CNPJ", path: "/cnpj-generator" },
     { name: "Gerador de Senhas", path: "/password-generator" },
+    { name: "Gerador de Cartão de Crédito", path: "/credit-card-generator" }, // NEW NAV ITEM
   ];
 
   return (

@@ -117,3 +117,74 @@ export function generatePassword(options: PasswordOptions): string {
   
   return password.split('').sort(() => 0.5 - Math.random()).join('');
 }
+
+// Credit Card generation logic
+function luhnCheck(cardNumber: string): boolean {
+  let sum = 0;
+  let double = false;
+  for (let i = cardNumber.length - 1; i >= 0; i--) {
+    let digit = parseInt(cardNumber.charAt(i), 10);
+    if (double) {
+      digit *= 2;
+      if (digit > 9) {
+        digit -= 9;
+      }
+    }
+    sum += digit;
+    double = !double;
+  }
+  return (sum % 10) === 0;
+}
+
+function generatePartialNumber(prefix: string, totalLength: number): string {
+  let partial = prefix;
+  while (partial.length < totalLength - 1) { // -1 for the Luhn check digit
+    partial += Math.floor(Math.random() * 10);
+  }
+  return partial;
+}
+
+function generateValidCardNumber(prefix: string, totalLength: number): string {
+  let partial = generatePartialNumber(prefix, totalLength);
+  let checkDigit = 0;
+  for (let i = 0; i < 10; i++) { // Iterate through possible check digits (0-9)
+    const tempCard = partial + i;
+    if (luhnCheck(tempCard)) {
+      checkDigit = i;
+      break;
+    }
+  }
+  return partial + checkDigit;
+}
+
+interface CreditCardBrand {
+  name: string;
+  prefixes: string[];
+  lengths: number[];
+}
+
+const CREDIT_CARD_BRANDS: CreditCardBrand[] = [
+  { name: "Visa", prefixes: ["4"], lengths: [16] },
+  { name: "Mastercard", prefixes: ["51", "52", "53", "54", "55"], lengths: [16] },
+  { name: "American Express", prefixes: ["34", "37"], lengths: [15] },
+  { name: "Discover", prefixes: ["6011", "644", "645", "646", "647", "648", "649", "65"], lengths: [16] },
+  { name: "Diners Club", prefixes: ["300", "301", "302", "303", "304", "305", "36", "38", "39"], lengths: [14, 16] },
+  { name: "JCB", prefixes: ["3528", "3529", "353", "354", "355", "356", "357", "358"], lengths: [16] },
+];
+
+export function generateCreditCard(brandName: string): string {
+  const brand = CREDIT_CARD_BRANDS.find(b => b.name.toLowerCase() === brandName.toLowerCase());
+  if (!brand) {
+    console.warn(`Brand "${brandName}" not found. Cannot generate card.`);
+    return "";
+  }
+
+  const prefix = brand.prefixes[Math.floor(Math.random() * brand.prefixes.length)];
+  const length = brand.lengths[Math.floor(Math.random() * brand.lengths.length)];
+
+  return generateValidCardNumber(prefix, length);
+}
+
+export function getAllCreditCardBrands(): CreditCardBrand[] {
+  return CREDIT_CARD_BRANDS;
+}

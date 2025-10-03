@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import CpfGeneratorPage from "./pages/CpfGeneratorPage";
 import CnpjGeneratorPage from "./pages/CnpjGeneratorPage";
 import PasswordGeneratorPage from "./pages/PasswordGeneratorPage";
+import CreditCardGeneratorPage from "./pages/CreditCardGeneratorPage"; // New import
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/cpf-generator" element={<CpfGeneratorPage />} />
           <Route path="/cnpj-generator" element={<CnpjGeneratorPage />} />
           <Route path="/password-generator" element={<PasswordGeneratorPage />} />
+          <Route path="/credit-card-generator" element={<CreditCardGeneratorPage />} /> {/* NEW ROUTE */}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

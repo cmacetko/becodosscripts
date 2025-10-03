@@ -2,7 +2,7 @@ import { MadeWithDyad } from "@/components/made-with-dyad";
 import { Header } from "@/components/Header";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { FileCode, KeyRound, Building } from "lucide-react";
+import { FileCode, KeyRound, Building, CreditCard } from "lucide-react"; // Add CreditCard icon
 
 const Index = () => {
   const tools = [
@@ -23,6 +23,12 @@ const Index = () => {
       description: "Crie senhas fortes e personalizáveis para diversas necessidades.",
       icon: <KeyRound className="h-8 w-8 text-primary" />,
       path: "/password-generator",
+    },
+    { // NEW TOOL CARD
+      title: "Gerador de Cartão de Crédito",
+      description: "Gere números de cartão de crédito válidos para testes.",
+      icon: <CreditCard className="h-8 w-8 text-primary" />,
+      path: "/credit-card-generator",
     },
   ];
 
