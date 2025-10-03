@@ -36,7 +36,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       <Header />
-      <div className="w-full max-w-4xl mx-auto flex-grow p-4 sm:p-8">
+      <div className="container mx-auto flex-grow p-4 sm:p-8">
         <header className="text-center mb-12 mt-4">
           <h1 className="text-4xl font-bold tracking-tight">
             Caixa de Ferramentas do Desenvolvedor
