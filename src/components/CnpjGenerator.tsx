@@ -32,7 +32,7 @@ export const CnpjGenerator = () => {
         </div>
       </div>
       {cnpjs.length > 0 && (
-        <div className="space-y-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {cnpjs.map((cnpj, index) => (
             <ResultItem key={index} value={cnpj} />
           ))}

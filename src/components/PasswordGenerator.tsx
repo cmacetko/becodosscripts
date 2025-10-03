@@ -83,7 +83,7 @@ export const PasswordGenerator = () => {
       </div>
       <Button onClick={handleGenerate} className="w-full sm:w-auto">Generate Passwords</Button>
       {passwords.length > 0 && (
-        <div className="space-y-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {passwords.map((password, index) => (
             <ResultItem key={index} value={password} />
           ))}

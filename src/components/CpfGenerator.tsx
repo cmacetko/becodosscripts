@@ -32,7 +32,7 @@ export const CpfGenerator = () => {
         </div>
       </div>
       {cpfs.length > 0 && (
-        <div className="space-y-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {cpfs.map((cpf, index) => (
             <ResultItem key={index} value={cpf} />
           ))}
