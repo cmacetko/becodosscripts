@@ -28,7 +28,7 @@ export const Header = () => {
           {navItems.map((item) => (
             <Button
               key={item.path}
-              variant="ghost"
+              variant="secondary"
               asChild
             >
               <Link
@@ -46,7 +46,7 @@ export const Header = () => {
         {/* Navegação para Mobile */}
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
           <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon">
+            <Button variant="secondary" size="icon">
               <Menu className="h-5 w-5" />
               <span className="sr-only">Alternar Menu</span>
             </Button>
