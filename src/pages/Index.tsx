@@ -7,20 +7,20 @@ import { FileCode, KeyRound, Building } from "lucide-react";
 const Index = () => {
   const tools = [
     {
-      title: "CPF Generator",
-      description: "Generate valid CPF numbers for testing and development.",
+      title: "Gerador de CPF",
+      description: "Gere números de CPF válidos para testes e desenvolvimento.",
       icon: <FileCode className="h-8 w-8 text-primary" />,
       path: "/cpf-generator",
     },
     {
-      title: "CNPJ Generator",
-      description: "Generate valid CNPJ numbers for testing and development.",
+      title: "Gerador de CNPJ",
+      description: "Gere números de CNPJ válidos para testes e desenvolvimento.",
       icon: <Building className="h-8 w-8 text-primary" />,
       path: "/cnpj-generator",
     },
     {
-      title: "Password Generator",
-      description: "Create strong and customizable passwords for various needs.",
+      title: "Gerador de Senhas",
+      description: "Crie senhas fortes e personalizáveis para diversas necessidades.",
       icon: <KeyRound className="h-8 w-8 text-primary" />,
       path: "/password-generator",
     },
@@ -32,10 +32,10 @@ const Index = () => {
       <div className="w-full max-w-4xl mx-auto flex-grow p-4 sm:p-8">
         <header className="text-center mb-12 mt-4">
           <h1 className="text-4xl font-bold tracking-tight">
-            Developer Toolbox
+            Caixa de Ferramentas do Desenvolvedor
           </h1>
           <p className="text-muted-foreground mt-2">
-            Quickly generate data for your development needs.
+            Gere dados rapidamente para suas necessidades de desenvolvimento.
           </p>
         </header>
         <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

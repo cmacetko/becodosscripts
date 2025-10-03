@@ -9,10 +9,10 @@ const PasswordGeneratorPage = () => {
       <div className="w-full max-w-4xl mx-auto flex-grow p-4 sm:p-8">
         <header className="text-center mb-8 mt-4">
           <h1 className="text-4xl font-bold tracking-tight">
-            Password Generator
+            Gerador de Senhas
           </h1>
           <p className="text-muted-foreground mt-2">
-            Generate strong and customizable passwords.
+            Gere senhas fortes e personalizáveis.
           </p>
         </header>
         <main>

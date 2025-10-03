@@ -102,7 +102,7 @@ export function generatePassword(options: PasswordOptions): string {
   }
 
   if (charset === '') {
-    return 'Select at least one character type.';
+    return ''; // Retorna string vazia se nenhum tipo de caractere for selecionado
   }
   
   for (const set of selectedSets) {

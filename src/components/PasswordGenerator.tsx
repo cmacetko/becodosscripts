@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { generatePassword } from "@/lib/generators";
 import { ResultItem } from "./ResultItem";
+import { showError } from "@/utils/toast"; // Importar showError
 
 export const PasswordGenerator = () => {
   const [passwords, setPasswords] = useState<string[]>([]);
@@ -19,6 +20,7 @@ export const PasswordGenerator = () => {
   const handleGenerate = () => {
     if (!options.uppercase && !options.lowercase && !options.numbers && !options.symbols) {
         setPasswords([]);
+        showError("Selecione pelo menos um tipo de caractere para gerar a senha."); // Mensagem de erro
         return;
     }
     const newPasswords = Array.from({ length: 12 }, () => generatePassword(options));
@@ -34,7 +36,7 @@ export const PasswordGenerator = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <Label htmlFor="length">Password Length</Label>
+            <Label htmlFor="length">Comprimento da Senha</Label>
             <span className="text-sm font-medium">{options.length}</span>
           </div>
           <Slider
@@ -53,7 +55,7 @@ export const PasswordGenerator = () => {
               checked={options.uppercase}
               onCheckedChange={(checked) => setOptions({ ...options, uppercase: checked })}
             />
-            <Label htmlFor="uppercase">Uppercase (A-Z)</Label>
+            <Label htmlFor="uppercase">Maiúsculas (A-Z)</Label>
           </div>
           <div className="flex items-center space-x-2">
             <Switch
@@ -61,7 +63,7 @@ export const PasswordGenerator = () => {
               checked={options.lowercase}
               onCheckedChange={(checked) => setOptions({ ...options, lowercase: checked })}
             />
-            <Label htmlFor="lowercase">Lowercase (a-z)</Label>
+            <Label htmlFor="lowercase">Minúsculas (a-z)</Label>
           </div>
           <div className="flex items-center space-x-2">
             <Switch
@@ -69,7 +71,7 @@ export const PasswordGenerator = () => {
               checked={options.numbers}
               onCheckedChange={(checked) => setOptions({ ...options, numbers: checked })}
             />
-            <Label htmlFor="numbers">Numbers (0-9)</Label>
+            <Label htmlFor="numbers">Números (0-9)</Label>
           </div>
           <div className="flex items-center space-x-2">
             <Switch
@@ -77,11 +79,11 @@ export const PasswordGenerator = () => {
               checked={options.symbols}
               onCheckedChange={(checked) => setOptions({ ...options, symbols: checked })}
             />
-            <Label htmlFor="symbols">Symbols (!@#...)</Label>
+            <Label htmlFor="symbols">Símbolos (!@#...)</Label>
           </div>
         </div>
       </div>
-      <Button onClick={handleGenerate} className="w-full sm:w-auto">Generate Passwords</Button>
+      <Button onClick={handleGenerate} className="w-full sm:w-auto">Gerar Senhas</Button>
       {passwords.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {passwords.map((password, index) => (

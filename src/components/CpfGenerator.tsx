@@ -21,14 +21,14 @@ export const CpfGenerator = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-center gap-4">
-        <Button onClick={handleGenerate}>Generate CPFs</Button>
+        <Button onClick={handleGenerate}>Gerar CPFs</Button>
         <div className="flex items-center space-x-2">
           <Switch
             id="cpf-punctuation"
             checked={withPunctuation}
             onCheckedChange={setWithPunctuation}
           />
-          <Label htmlFor="cpf-punctuation">With Punctuation</Label>
+          <Label htmlFor="cpf-punctuation">Com Pontuação</Label>
         </div>
       </div>
       {cpfs.length > 0 && (

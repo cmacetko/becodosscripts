@@ -9,7 +9,7 @@ interface ResultItemProps {
 export const ResultItem = ({ value }: ResultItemProps) => {
   const handleCopy = () => {
     navigator.clipboard.writeText(value);
-    showSuccess(`Copied "${value}" to clipboard!`);
+    showSuccess(`Copiado "${value}" para a área de transferência!`);
   };
 
   return (

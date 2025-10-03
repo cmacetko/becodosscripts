@@ -10,9 +10,9 @@ export const Header = () => {
   const location = useLocation();
 
   const navItems = [
-    { name: "CPF Generator", path: "/cpf-generator" },
-    { name: "CNPJ Generator", path: "/cnpj-generator" },
-    { name: "Password Generator", path: "/password-generator" },
+    { name: "Gerador de CPF", path: "/cpf-generator" },
+    { name: "Gerador de CNPJ", path: "/cnpj-generator" },
+    { name: "Gerador de Senhas", path: "/password-generator" },
   ];
 
   return (
@@ -48,7 +48,7 @@ export const Header = () => {
           <SheetTrigger asChild className="md:hidden">
             <Button variant="ghost" size="icon">
               <Menu className="h-5 w-5" />
-              <span className="sr-only">Toggle Menu</span>
+              <span className="sr-only">Alternar Menu</span>
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="w-[200px] sm:w-[240px]">

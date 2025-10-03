@@ -21,14 +21,14 @@ export const CnpjGenerator = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-center gap-4">
-        <Button onClick={handleGenerate}>Generate CNPJs</Button>
+        <Button onClick={handleGenerate}>Gerar CNPJs</Button>
         <div className="flex items-center space-x-2">
           <Switch
             id="cnpj-punctuation"
             checked={withPunctuation}
             onCheckedChange={setWithPunctuation}
           />
-          <Label htmlFor="cnpj-punctuation">With Punctuation</Label>
+          <Label htmlFor="cnpj-punctuation">Com Pontuação</Label>
         </div>
       </div>
       {cnpjs.length > 0 && (
