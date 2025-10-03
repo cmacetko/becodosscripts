@@ -1,8 +1,9 @@
 import { Header } from "@/components/Header";
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { FileCode, KeyRound, Building, CreditCard } from "lucide-react";
-import { Footer } from "@/components/Footer"; // Importar o novo Footer
+import { FileCode, KeyRound, Building, CreditCard, BookOpenText } from "lucide-react";
+import { Footer } from "@/components/Footer";
 
 const Index = () => {
   const tools = [
@@ -59,8 +60,26 @@ const Index = () => {
             </Link>
           ))}
         </main>
+
+        {/* Call to Action para o Blog */}
+        <section className="mt-12 text-center">
+          <Card className="p-6 flex flex-col items-center">
+            <CardHeader className="flex flex-col items-center p-0 mb-4">
+              <BookOpenText className="h-8 w-8 text-primary" />
+              <CardTitle className="mt-4 text-xl">Explore meu Blog de Desenvolvimento</CardTitle>
+            </CardHeader>
+            <CardContent className="p-0 mb-4 text-muted-foreground">
+              <p>Encontre artigos técnicos, tutoriais e insights sobre desenvolvimento web e muito mais.</p>
+            </CardContent>
+            <Button asChild>
+              <a href="https://www.palomamacetko.com.br/" target="_blank" rel="noopener noreferrer">
+                Visitar o Blog
+              </a>
+            </Button>
+          </Card>
+        </section>
       </div>
-      <Footer /> {/* Usar o novo Footer */}
+      <Footer />
     </div>
   );
 };
