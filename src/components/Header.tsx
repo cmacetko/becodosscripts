@@ -28,7 +28,7 @@ export const Header = () => {
           {navItems.map((item) => (
             <Button
               key={item.path}
-              variant={location.pathname === item.path ? "secondary" : "ghost"}
+              variant="ghost" // Alterado para sempre ser 'ghost'
               asChild
             >
               <Link
