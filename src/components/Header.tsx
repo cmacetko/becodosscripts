@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Menu, Wrench } from "lucide-react"; // Importando o ícone Wrench
 import { cn } from "@/lib/utils";
 
 export const Header = () => {
@@ -19,7 +19,8 @@ export const Header = () => {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center justify-between">
         <Link to="/" className="mr-4 flex items-center">
-          <span className="font-bold text-lg">🛠️ Beco dos Scripts</span>
+          <Wrench className="h-5 w-5 mr-2" /> {/* Usando o ícone Wrench */}
+          <span className="font-bold text-lg">Beco dos Scripts</span>
         </Link>
 
         {/* Navegação para Desktop */}
@@ -53,7 +54,8 @@ export const Header = () => {
           </SheetTrigger>
           <SheetContent side="right" className="w-[200px] sm:w-[240px]">
             <Link to="/" className="flex items-center mb-6" onClick={() => setIsSheetOpen(false)}>
-              <span className="font-bold text-lg">🛠️ Beco dos Scripts</span>
+              <Wrench className="h-5 w-5 mr-2" /> {/* Usando o ícone Wrench no menu mobile também */}
+              <span className="font-bold text-lg">Beco dos Scripts</span>
             </Link>
             <nav className="flex flex-col gap-2">
               {navItems.map((item) => (
