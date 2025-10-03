@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -10,9 +10,13 @@ export const CpfGenerator = () => {
   const [withPunctuation, setWithPunctuation] = useState(true);
 
   const handleGenerate = () => {
-    const newCpfs = Array.from({ length: 10 }, () => generateCpf(withPunctuation));
+    const newCpfs = Array.from({ length: 12 }, () => generateCpf(withPunctuation));
     setCpfs(newCpfs);
   };
+
+  useEffect(() => {
+    handleGenerate(); // Gera 12 CPFs na montagem do componente
+  }, [withPunctuation]); // Regenera se a opção de pontuação mudar
 
   return (
     <div className="space-y-6">

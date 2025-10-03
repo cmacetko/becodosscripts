@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -10,9 +10,13 @@ export const CnpjGenerator = () => {
   const [withPunctuation, setWithPunctuation] = useState(true);
 
   const handleGenerate = () => {
-    const newCnpjs = Array.from({ length: 10 }, () => generateCnpj(withPunctuation));
+    const newCnpjs = Array.from({ length: 12 }, () => generateCnpj(withPunctuation));
     setCnpjs(newCnpjs);
   };
+
+  useEffect(() => {
+    handleGenerate(); // Gera 12 CNPJs na montagem do componente
+  }, [withPunctuation]); // Regenera se a opção de pontuação mudar
 
   return (
     <div className="space-y-6">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -21,9 +21,13 @@ export const PasswordGenerator = () => {
         setPasswords([]);
         return;
     }
-    const newPasswords = Array.from({ length: 10 }, () => generatePassword(options));
+    const newPasswords = Array.from({ length: 12 }, () => generatePassword(options));
     setPasswords(newPasswords);
   };
+
+  useEffect(() => {
+    handleGenerate(); // Gera 12 senhas na montagem do componente
+  }, [options]); // Regenera se as opções de senha mudarem
 
   return (
     <div className="space-y-6">
