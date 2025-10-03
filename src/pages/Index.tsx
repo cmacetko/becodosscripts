@@ -64,7 +64,7 @@ const Index = () => {
         {/* Call to Action para o Blog */}
         <section className="mt-12 text-center">
           <Card 
-            className="p-6 flex flex-col items-center bg-primary text-primary-foreground bg-cover bg-center" 
+            className="relative p-6 flex flex-col items-center bg-primary text-primary-foreground bg-cover bg-center" 
             style={{ backgroundImage: "url('/programming-1873854_1920.png')" }}
           >
             <div className="absolute inset-0 bg-black opacity-50 rounded-lg"></div> {/* Overlay para legibilidade */}
