@@ -1,6 +1,6 @@
 import { CreditCardGenerator } from "@/components/CreditCardGenerator";
-import { MadeWithDyad } from "@/components/made-with-dyad";
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer"; // Importar o novo Footer
 
 const CreditCardGeneratorPage = () => {
   return (
@@ -19,9 +19,7 @@ const CreditCardGeneratorPage = () => {
           <CreditCardGenerator />
         </main>
       </div>
-      <footer className="w-full mt-8">
-        <MadeWithDyad />
-      </footer>
+      <Footer /> {/* Usar o novo Footer */}
     </div>
   );
 };

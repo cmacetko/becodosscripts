@@ -1,6 +1,6 @@
 import { PasswordGenerator } from "@/components/PasswordGenerator";
-import { MadeWithDyad } from "@/components/made-with-dyad";
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer"; // Importar o novo Footer
 
 const PasswordGeneratorPage = () => {
   return (
@@ -19,9 +19,7 @@ const PasswordGeneratorPage = () => {
           <PasswordGenerator />
         </main>
       </div>
-      <footer className="w-full mt-8">
-        <MadeWithDyad />
-      </footer>
+      <Footer /> {/* Usar o novo Footer */}
     </div>
   );
 };

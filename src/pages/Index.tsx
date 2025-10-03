@@ -1,8 +1,8 @@
-import { MadeWithDyad } from "@/components/made-with-dyad";
 import { Header } from "@/components/Header";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { FileCode, KeyRound, Building, CreditCard } from "lucide-react"; // Add CreditCard icon
+import { FileCode, KeyRound, Building, CreditCard } from "lucide-react";
+import { Footer } from "@/components/Footer"; // Importar o novo Footer
 
 const Index = () => {
   const tools = [
@@ -24,7 +24,7 @@ const Index = () => {
       icon: <KeyRound className="h-8 w-8 text-primary" />,
       path: "/password-generator",
     },
-    { // NEW TOOL CARD
+    {
       title: "Gerador de Cartão de Crédito",
       description: "Gere números de cartão de crédito válidos para testes.",
       icon: <CreditCard className="h-8 w-8 text-primary" />,
@@ -60,9 +60,7 @@ const Index = () => {
           ))}
         </main>
       </div>
-      <footer className="w-full mt-8">
-        <MadeWithDyad />
-      </footer>
+      <Footer /> {/* Usar o novo Footer */}
     </div>
   );
 };
