@@ -63,15 +63,15 @@ const Index = () => {
 
         {/* Call to Action para o Blog */}
         <section className="mt-12 text-center">
-          <Card className="p-6 flex flex-col items-center">
+          <Card className="p-6 flex flex-col items-center bg-primary text-primary-foreground">
             <CardHeader className="flex flex-col items-center p-0 mb-4">
-              <BookOpenText className="h-8 w-8 text-primary" />
+              <BookOpenText className="h-8 w-8 text-primary-foreground" />
               <CardTitle className="mt-4 text-xl">Explore meu Blog de Desenvolvimento</CardTitle>
             </CardHeader>
-            <CardContent className="p-0 mb-4 text-muted-foreground">
+            <CardContent className="p-0 mb-4">
               <p>Encontre artigos técnicos, tutoriais e insights sobre desenvolvimento web e muito mais.</p>
             </CardContent>
-            <Button asChild>
+            <Button asChild variant="secondary">
               <a href="https://www.palomamacetko.com.br/" target="_blank" rel="noopener noreferrer">
                 Visitar o Blog
               </a>
