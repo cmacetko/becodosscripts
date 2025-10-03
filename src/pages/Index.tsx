@@ -64,12 +64,12 @@ const Index = () => {
         {/* Call to Action para o Blog */}
         <section className="mt-12 text-center">
           <Card 
-            className="relative p-6 flex flex-col items-center bg-primary text-primary-foreground bg-cover bg-center" 
+            className="relative p-6 flex flex-col items-center bg-primary text-white bg-cover bg-center" 
             style={{ backgroundImage: "url('/programming-1873854_1920.png')" }}
           >
             <div className="absolute inset-0 bg-black opacity-50 rounded-lg"></div> {/* Overlay para legibilidade */}
             <CardHeader className="flex flex-col items-center p-0 mb-4 z-10">
-              <BookOpenText className="h-8 w-8 text-primary-foreground" />
+              <BookOpenText className="h-8 w-8 text-white" />
               <CardTitle className="mt-4 text-xl">Explore meu Blog de Desenvolvimento</CardTitle>
             </CardHeader>
             <CardContent className="p-0 mb-4 z-10">
