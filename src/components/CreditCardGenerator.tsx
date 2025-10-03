@@ -73,10 +73,8 @@ export const CreditCardGenerator = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {generatedCards.map((card, index) => (
             <Card key={index}>
-              <CardHeader>
-                <CardTitle className="text-base">{card.brand}</CardTitle>
-              </CardHeader>
-              <CardContent>
+              {/* Removido CardHeader para não exibir a bandeira */}
+              <CardContent className="pt-6"> {/* Ajuste de padding para compensar a remoção do header */}
                 <ResultItem value={card.number} />
               </CardContent>
             </Card>
