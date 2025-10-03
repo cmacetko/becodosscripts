@@ -34,8 +34,7 @@ export const Header = () => {
               <Link
                 to={item.path}
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary",
-                  location.pathname === item.path ? "text-primary" : "text-muted-foreground"
+                  "text-sm font-medium transition-colors hover:text-primary text-muted-foreground"
                 )}
               >
                 {item.name}
@@ -61,7 +60,7 @@ export const Header = () => {
               {navItems.map((item) => (
                 <Button
                   key={item.path}
-                  variant={location.pathname === item.path ? "secondary" : "ghost"}
+                  variant={"ghost"}
                   onClick={() => setIsSheetOpen(false)}
                   asChild
                   className="justify-start"
