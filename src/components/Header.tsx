@@ -1,27 +1,18 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface HeaderProps {
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
-}
-
-export const Header = ({ activeTab, setActiveTab }: HeaderProps) => {
+export const Header = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-
-  const handleTabClick = (tab: string) => {
-    setActiveTab(tab);
-    setIsSheetOpen(false); // Fecha o sheet ao selecionar uma aba
-  };
+  const location = useLocation();
 
   const navItems = [
-    { name: "CPF Generator", value: "cpf" },
-    { name: "CNPJ Generator", value: "cnpj" },
-    { name: "Password Generator", value: "password" },
+    { name: "CPF Generator", path: "/cpf-generator" },
+    { name: "CNPJ Generator", path: "/cnpj-generator" },
+    { name: "Password Generator", path: "/password-generator" },
   ];
 
   return (
@@ -35,15 +26,19 @@ export const Header = ({ activeTab, setActiveTab }: HeaderProps) => {
         <nav className="hidden md:flex items-center space-x-4">
           {navItems.map((item) => (
             <Button
-              key={item.value}
-              variant={activeTab === item.value ? "secondary" : "ghost"}
-              onClick={() => handleTabClick(item.value)}
-              className={cn(
-                "text-sm font-medium transition-colors hover:text-primary",
-                activeTab === item.value ? "text-primary" : "text-muted-foreground"
-              )}
+              key={item.path}
+              variant={location.pathname === item.path ? "secondary" : "ghost"}
+              asChild
             >
-              {item.name}
+              <Link
+                to={item.path}
+                className={cn(
+                  "text-sm font-medium transition-colors hover:text-primary",
+                  location.pathname === item.path ? "text-primary" : "text-muted-foreground"
+                )}
+              >
+                {item.name}
+              </Link>
             </Button>
           ))}
         </nav>
@@ -57,18 +52,19 @@ export const Header = ({ activeTab, setActiveTab }: HeaderProps) => {
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="w-[200px] sm:w-[240px]">
-            <Link to="/" className="flex items-center mb-6">
+            <Link to="/" className="flex items-center mb-6" onClick={() => setIsSheetOpen(false)}>
               <span className="font-bold text-lg">Beco dos Scripts</span>
             </Link>
             <nav className="flex flex-col gap-2">
               {navItems.map((item) => (
                 <Button
-                  key={item.value}
-                  variant={activeTab === item.value ? "secondary" : "ghost"}
-                  onClick={() => handleTabClick(item.value)}
+                  key={item.path}
+                  variant={location.pathname === item.path ? "secondary" : "ghost"}
+                  onClick={() => setIsSheetOpen(false)}
+                  asChild
                   className="justify-start"
                 >
-                  {item.name}
+                  <Link to={item.path}>{item.name}</Link>
                 </Button>
               ))}
             </nav>
