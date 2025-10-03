@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { generateCreditCard, getAllCreditCardBrands } from "@/lib/generators";
 import { ResultItem } from "./ResultItem";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -72,12 +71,7 @@ export const CreditCardGenerator = () => {
       {generatedCards.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {generatedCards.map((card, index) => (
-            <Card key={index}>
-              {/* Removido CardHeader para não exibir a bandeira */}
-              <CardContent className="pt-6"> {/* Ajuste de padding para compensar a remoção do header */}
-                <ResultItem value={card.number} />
-              </CardContent>
-            </Card>
+            <ResultItem key={index} value={card.number} />
           ))}
         </div>
       )}
