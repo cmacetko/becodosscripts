@@ -4,9 +4,14 @@ import { CnpjGenerator } from "./CnpjGenerator";
 import { PasswordGenerator } from "./PasswordGenerator";
 import { FileCode, KeyRound, Building } from "lucide-react";
 
-export const Toolbox = () => {
+interface ToolboxProps {
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+}
+
+export const Toolbox = ({ activeTab, setActiveTab }: ToolboxProps) => {
   return (
-    <Tabs defaultValue="cpf" className="w-full">
+    <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
       <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="cpf">
           <FileCode className="mr-2 h-4 w-4" />
