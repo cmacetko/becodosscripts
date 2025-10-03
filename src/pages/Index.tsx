@@ -1,17 +1,25 @@
-// Update this page (the content is just a fallback if you fail to update the page)
-
+import { Toolbox } from "@/components/Toolbox";
 import { MadeWithDyad } from "@/components/made-with-dyad";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">
-          Start building your amazing project here!
-        </p>
+    <div className="min-h-screen bg-background text-foreground flex flex-col items-center p-4 sm:p-8">
+      <div className="w-full max-w-4xl mx-auto flex-grow">
+        <header className="text-center mb-8">
+          <h1 className="text-4xl font-bold tracking-tight">
+            Developer Toolbox
+          </h1>
+          <p className="text-muted-foreground mt-2">
+            Quickly generate data for your development needs.
+          </p>
+        </header>
+        <main>
+          <Toolbox />
+        </main>
       </div>
-      <MadeWithDyad />
+      <footer className="w-full mt-8">
+        <MadeWithDyad />
+      </footer>
     </div>
   );
 };

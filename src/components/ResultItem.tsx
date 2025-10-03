@@ -1,0 +1,23 @@
+import { Copy } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { showSuccess } from "@/utils/toast";
+
+interface ResultItemProps {
+  value: string;
+}
+
+export const ResultItem = ({ value }: ResultItemProps) => {
+  const handleCopy = () => {
+    navigator.clipboard.writeText(value);
+    showSuccess(`Copied "${value}" to clipboard!`);
+  };
+
+  return (
+    <div className="flex items-center justify-between p-3 bg-gray-800 rounded-md">
+      <span className="font-mono text-sm text-gray-300 break-all">{value}</span>
+      <Button variant="ghost" size="icon" onClick={handleCopy}>
+        <Copy className="h-4 w-4" />
+      </Button>
+    </div>
+  );
+};
