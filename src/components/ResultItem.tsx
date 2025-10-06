@@ -13,7 +13,10 @@ export const ResultItem = ({ value }: ResultItemProps) => {
   };
 
   return (
-    <div className="flex items-center justify-between p-3 bg-gray-800 rounded-md">
+    <div
+      className="flex items-center justify-between p-3 bg-gray-800 rounded-md cursor-pointer hover:bg-gray-700 transition-colors"
+      onClick={handleCopy} // Adicionado onClick ao div principal
+    >
       <span className="font-mono text-sm text-gray-300 break-all">{value}</span>
       <Button variant="ghost" size="icon" onClick={handleCopy}>
         <Copy className="h-4 w-4" />
