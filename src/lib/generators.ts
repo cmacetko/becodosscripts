@@ -256,7 +256,8 @@ export function generatePrivacyPolicy(options: PrivacyPolicyOptions): string {
     const BBBBBB = siteUrl || 'URL do Site';
 
     const policyText = `
-A sua privacidade é importante para nós. É política do ${AAAAAA} respeitar a sua privacidade em relação a qualquer informação sua que possamos coletar no site ${AAAAAA}, e outros sites que possuímos e operamos.
+A sua privacidade é importante para nós. 
+É política do ${AAAAAA} (${BBBBBB}) respeitar a sua privacidade em relação a qualquer informação sua que possamos coletar no site ${AAAAAA}, e outros sites que possuímos e operamos.
 
 Solicitamos informações pessoais apenas quando realmente precisamos delas para lhe fornecer um serviço. Fazemo-lo por meios justos e legais, com o seu conhecimento e consentimento. Também informamos por que estamos coletando e como será usado.
 
@@ -264,7 +265,7 @@ Apenas retemos as informações coletadas pelo tempo necessário para fornecer o
 
 Não compartilhamos informações de identificação pessoal publicamente ou com terceiros, exceto quando exigido por lei.
 
-O nosso site pode ter links para sites externos que não são operados por nós. Esteja ciente de que não temos controle sobre o conteúdo e práticas desses sites e não podemos aceitar responsabilidade por suas respectivas políticas de privacidade.
+O nosso site pode ter links para sites externos que não são operados por nós. Esteve ciente de que não temos controle sobre o conteúdo e práticas desses sites e não podemos aceitar responsabilidade por suas respectivas políticas de privacidade.
 
 Você é livre para recusar a nossa solicitação de informações pessoais, entendendo que talvez não possamos fornecer alguns dos serviços desejados.
 
