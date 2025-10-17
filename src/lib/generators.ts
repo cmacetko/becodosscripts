@@ -241,3 +241,108 @@ export function generateLoremIpsum(paragraphCount: number, format: 'html' | 'tex
     return paragraphs.join('\n\n');
   }
 }
+
+// Privacy Policy generation logic
+interface PrivacyPolicyOptions {
+    siteName: string;
+    siteUrl: string;
+    format: 'html' | 'text';
+}
+
+export function generatePrivacyPolicy(options: PrivacyPolicyOptions): string {
+    const { siteName, siteUrl, format } = options;
+    
+    const AAAAAA = siteName || 'Nome do Site';
+    const BBBBBB = siteUrl || 'URL do Site';
+
+    const policyText = `
+1. Termos
+
+Ao acessar ao site ${AAAAAA}, concorda em cumprir estes termos de serviço, todas as leis e regulamentos aplicáveis ​​e concorda que é responsável pelo cumprimento de todas as leis locais aplicáveis. Se você não concordar com algum desses termos, está proibido de usar ou acessar este site. Os materiais contidos neste site são protegidos pelas leis de direitos autorais e marcas comerciais aplicáveis.
+
+2. Uso de Licença
+
+É concedida permissão para baixar temporariamente uma cópia dos materiais (informações ou software) no site ${AAAAAA} , apenas para visualização transitória pessoal e não comercial. Esta é a concessão de uma licença, não uma transferência de título e, sob esta licença, você não pode: 
+
+- modificar ou copiar os materiais; 
+- usar os materiais para qualquer finalidade comercial ou para exibição pública (comercial ou não comercial); 
+- tentar descompilar ou fazer engenharia reversa de qualquer software contido no site ${AAAAAA}; 
+- remover quaisquer direitos autorais ou outras notações de propriedade dos materiais; ou 
+- transferir os materiais para outra pessoa ou 'espelhe' os materiais em qualquer outro servidor.
+
+Esta licença será automaticamente rescindida se você violar alguma dessas restrições e poderá ser rescindida por ${AAAAAA} a qualquer momento. Ao encerrar a visualização desses materiais ou após o término desta licença, você deve apagar todos os materiais baixados em sua posse, seja em formato eletrónico ou impresso.
+
+3. Isenção de responsabilidade
+
+- Os materiais no site da ${AAAAAA} são fornecidos 'como estão'. ${AAAAAA} não oferece garantias, expressas ou implícitas, e, por este meio, isenta e nega todas as outras garantias, incluindo, sem limitação, garantias implícitas ou condições de comercialização, adequação a um fim específico ou não violação de propriedade intelectual ou outra violação de direitos.
+- Além disso, o ${AAAAAA} não garante ou faz qualquer representação relativa à precisão, aos resultados prováveis ​​ou à confiabilidade do uso dos materiais em seu site ou de outra forma relacionado a esses materiais ou em sites vinculados a este site.
+
+4. Limitações
+
+Em nenhum caso o ${AAAAAA} ou seus fornecedores serão responsáveis ​​por quaisquer danos (incluindo, sem limitação, danos por perda de dados ou lucro ou devido a interrupção dos negócios) decorrentes do uso ou da incapacidade de usar os materiais em ${AAAAAA}, mesmo que ${AAAAAA} ou um representante autorizado da ${AAAAAA} tenha sido notificado oralmente ou por escrito da possibilidade de tais danos. Como algumas jurisdições não permitem limitações em garantias implícitas, ou limitações de responsabilidade por danos conseqüentes ou incidentais, essas limitações podem não se aplicar a você.
+
+5. Precisão dos materiais
+
+Os materiais exibidos no site da ${AAAAAA} podem incluir erros técnicos, tipográficos ou fotográficos. ${AAAAAA} não garante que qualquer material em seu site seja preciso, completo ou atual. ${AAAAAA} pode fazer alterações nos materiais contidos em seu site a qualquer momento, sem aviso prévio. No entanto, ${AAAAAA} não se compromete a atualizar os materiais.
+
+6. Links
+
+O ${AAAAAA} não analisou todos os sites vinculados ao seu site e não é responsável pelo conteúdo de nenhum site vinculado. A inclusão de qualquer link não implica endosso por ${AAAAAA} do site. O uso de qualquer site vinculado é por conta e risco do usuário.
+
+Modificações
+
+O ${AAAAAA} pode revisar estes termos de serviço do site a qualquer momento, sem aviso prévio. Ao usar este site, você concorda em ficar vinculado à versão atual desses termos de serviço.
+Lei aplicável
+
+Estes termos e condições são regidos e interpretados de acordo com as leis do ${AAAAAA} e você se submete irrevogavelmente à jurisdição exclusiva dos tribunais naquele estado ou localidade.
+    `.trim();
+
+    if (format === 'html') {
+        // Converte o texto em HTML básico, usando <p> para parágrafos e <ul>/<li> para listas
+        const htmlContent = policyText
+            .split('\n\n') // Divide em blocos (parágrafos/seções)
+            .map(block => {
+                block = block.trim();
+                if (!block) return '';
+
+                // Trata títulos de seção (começam com número e ponto)
+                if (block.match(/^\d+\./)) {
+                    const [title, ...rest] = block.split('\n');
+                    let content = `<h2>${title.trim()}</h2>`;
+                    
+                    // Trata listas dentro da seção
+                    const listItems = rest.filter(line => line.trim().startsWith('-'));
+                    if (listItems.length > 0) {
+                        content += '<ul>' + listItems.map(item => `<li>${item.replace(/^-/, '').trim()}</li>`).join('') + '</ul>';
+                        
+                        // Adiciona o restante do texto que não é lista como parágrafo
+                        const remainingText = rest.filter(line => !line.trim().startsWith('-')).join(' ').trim();
+                        if (remainingText) {
+                            content += `<p>${remainingText}</p>`;
+                        }
+                    } else {
+                        // Se não houver lista, trata o bloco como parágrafo(s)
+                        content += rest.map(p => `<p>${p.trim()}</p>`).join('');
+                    }
+                    return content;
+                }
+                
+                // Trata o bloco de "Modificações" e "Lei aplicável" que não tem número
+                if (block.startsWith('Modificações') || block.startsWith('Lei aplicável')) {
+                    const [title, ...rest] = block.split('\n');
+                    return `<h2>${title.trim()}</h2><p>${rest.join(' ').trim()}</p>`;
+                }
+
+                // Trata parágrafos simples
+                return `<p>${block}</p>`;
+            })
+            .join('\n');
+            
+        // Substitui a URL no texto final (garantindo que a URL seja um link)
+        return htmlContent.replace(new RegExp(BBBBBB, 'g'), `<a href="${BBBBBB}" target="_blank">${BBBBBB}</a>`);
+
+    } else {
+        // Texto simples: apenas substitui e garante que a formatação de lista seja mantida
+        return policyText.replace(new RegExp(BBBBBB, 'g'), BBBBBB);
+    }
+}
