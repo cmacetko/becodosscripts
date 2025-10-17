@@ -2,7 +2,7 @@ import { Header } from "@/components/Header";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { FileCode, KeyRound, Building, CreditCard, BookOpenText, FileText } from "lucide-react";
+import { FileCode, KeyRound, Building, CreditCard, BookOpenText, FileText, ScrollText } from "lucide-react";
 import { Footer } from "@/components/Footer";
 
 const Index = () => {
@@ -42,6 +42,12 @@ const Index = () => {
       description: "Crie rapidamente uma política de privacidade básica para o seu site.",
       icon: <FileText className="h-8 w-8 text-primary" />,
       path: "/privacy-policy-generator",
+    },
+    {
+      title: "Gerador de Termos e Condições",
+      description: "Crie rapidamente um documento de Termos e Condições básico para o seu site.",
+      icon: <ScrollText className="h-8 w-8 text-primary" />,
+      path: "/terms-and-conditions-generator",
     },
   ];
 
