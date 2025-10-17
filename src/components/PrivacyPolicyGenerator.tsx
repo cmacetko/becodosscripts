@@ -40,7 +40,7 @@ export const PrivacyPolicyGenerator = () => {
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <Label htmlFor="site-name">Nome do Site (AAAAAA)</Label>
+          <Label htmlFor="site-name">Nome do Site</Label>
           <Input
             id="site-name"
             value={siteName}
@@ -49,7 +49,7 @@ export const PrivacyPolicyGenerator = () => {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="site-url">URL do Site (BBBBBB)</Label>
+          <Label htmlFor="site-url">URL do Site</Label>
           <Input
             id="site-url"
             value={siteUrl}
