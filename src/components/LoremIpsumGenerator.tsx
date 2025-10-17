@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Textarea } from "@/components/ui/textarea";
 import { generateLoremIpsum } from "@/lib/generators";
 import { showSuccess } from "@/utils/toast";
 import { Copy } from "lucide-react";
@@ -65,22 +64,25 @@ export const LoremIpsumGenerator = () => {
         </div>
       </div>
       <Button onClick={handleGenerate} className="w-full sm:w-auto">Gerar Texto</Button>
-      <div className="relative">
-        <Textarea
-          readOnly
-          value={generatedText}
-          className="h-64 font-mono text-sm"
-          placeholder="Seu texto gerado aparecerá aqui..."
-        />
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute top-2 right-2"
-          onClick={handleCopy}
-        >
-          <Copy className="h-4 w-4" />
-        </Button>
-      </div>
+      
+      {generatedText && (
+        <div className="space-y-4">
+          <div className="p-4 border rounded-md bg-muted/50 min-h-[16rem] text-left">
+            {format === 'html' ? (
+              <div
+                className="prose prose-sm dark:prose-invert max-w-none"
+                dangerouslySetInnerHTML={{ __html: generatedText }}
+              />
+            ) : (
+              <p className="whitespace-pre-wrap font-mono text-sm">{generatedText}</p>
+            )}
+          </div>
+          <Button onClick={handleCopy} className="w-full sm:w-auto">
+            <Copy className="mr-2 h-4 w-4" />
+            Copiar Texto Gerado
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
