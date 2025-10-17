@@ -31,6 +31,12 @@ const Index = () => {
       icon: <CreditCard className="h-8 w-8 text-primary" />,
       path: "/credit-card-generator",
     },
+    {
+      title: "Gerador de Lorem Ipsum",
+      description: "Gere texto de preenchimento para seus layouts e designs.",
+      icon: <BookOpenText className="h-8 w-8 text-primary" />,
+      path: "/lorem-ipsum-generator",
+    },
   ];
 
   return (
