@@ -6,6 +6,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { generatePrivacyPolicy } from "@/lib/generators";
 import { showSuccess, showError } from "@/utils/toast";
 import { Copy } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea"; // Importando Textarea
 
 export const PrivacyPolicyGenerator = () => {
   const [siteName, setSiteName] = useState("Meu Site Exemplo");
@@ -27,7 +28,7 @@ export const PrivacyPolicyGenerator = () => {
   const handleCopy = () => {
     if (generatedText) {
       navigator.clipboard.writeText(generatedText);
-      showSuccess("Política de Privacidade copiada para a área de transferência!");
+      showSuccess(`Política de Privacidade (${format.toUpperCase()}) copiada para a área de transferência!`);
     }
   };
 
@@ -71,7 +72,7 @@ export const PrivacyPolicyGenerator = () => {
           </div>
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="html" id="format-html" />
-            <Label htmlFor="format-html">HTML</Label>
+            <Label htmlFor="format-html">HTML (Código Fonte)</Label>
           </div>
         </RadioGroup>
       </div>
@@ -80,16 +81,18 @@ export const PrivacyPolicyGenerator = () => {
       
       {generatedText && (
         <div className="space-y-4">
-          <div className="p-4 border rounded-md bg-muted/50 min-h-[20rem] text-left overflow-auto">
-            {format === 'html' ? (
-              <div
-                className="prose prose-sm dark:prose-invert max-w-none"
-                dangerouslySetInnerHTML={{ __html: generatedText }}
-              />
-            ) : (
-              <p className="whitespace-pre-wrap font-mono text-sm">{generatedText}</p>
-            )}
-          </div>
+          {format === 'html' ? (
+            <Textarea
+              value={generatedText}
+              readOnly
+              rows={20}
+              className="font-mono text-sm resize-none"
+            />
+          ) : (
+            <div className="p-4 border rounded-md bg-muted/50 min-h-[20rem] text-left overflow-auto">
+              <p className="whitespace-pre-wrap font-sans text-sm">{generatedText}</p>
+            </div>
+          )}
           <Button onClick={handleCopy} className="w-full sm:w-auto">
             <Copy className="mr-2 h-4 w-4" />
             Copiar Texto Gerado
