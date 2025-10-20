@@ -50,8 +50,8 @@ const Index = () => {
       path: "/terms-and-conditions-generator",
     },
     {
-      title: "Codificador/Decodificador UTF-8",
-      description: "Codifique texto para UTF-8 (Hex) e decodifique de volta.",
+      title: "Conversor UTF-8 (estilo PHP)",
+      description: "Simula `utf8_encode` e `utf8_decode` do PHP para corrigir textos com codificação incorreta.",
       icon: <Binary className="h-8 w-8 text-primary" />,
       path: "/utf8-converter",
     },

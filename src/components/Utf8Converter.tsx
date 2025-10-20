@@ -8,37 +8,38 @@ import { ArrowRightLeft, Trash2 } from "lucide-react";
 import { showError, showSuccess } from "@/utils/toast";
 
 export const Utf8Converter = () => {
-  const [inputText, setInputText] = useState("Olá, mundo!");
+  const [inputText, setInputText] = useState("maçã");
   const [outputText, setOutputText] = useState("");
 
+  // Simulates PHP's utf8_encode: Converts a string assumed to be ISO-8859-1 to UTF-8.
   const handleEncode = () => {
     try {
       const encoder = new TextEncoder();
-      const encoded = encoder.encode(inputText);
-      const hexString = Array.from(encoded)
-        .map((b) => b.toString(16).padStart(2, "0"))
-        .join(" ");
-      setOutputText(hexString.toUpperCase());
-      showSuccess("Texto codificado para UTF-8 (Hex) com sucesso!");
+      const utf8Bytes = encoder.encode(inputText);
+      const decoder = new TextDecoder('iso-8859-1');
+      const encodedString = decoder.decode(utf8Bytes);
+      setOutputText(encodedString);
+      showSuccess("Texto codificado (utf8_encode) com sucesso!");
     } catch (error) {
       showError("Ocorreu um erro ao codificar o texto.");
       setOutputText("");
     }
   };
 
+  // Simulates PHP's utf8_decode: Converts a string from UTF-8 to ISO-8859-1.
+  // This is useful for fixing "garbled" text.
   const handleDecode = () => {
     try {
-      const hexValues = inputText.trim().split(/\s+/);
-      const bytes = new Uint8Array(hexValues.map((hex) => parseInt(hex, 16)));
-      
-      if (bytes.some(isNaN)) {
-        throw new Error("Entrada contém valores hexadecimais inválidos.");
-      }
-
-      const decoder = new TextDecoder("utf-8", { fatal: true });
-      const decodedText = decoder.decode(bytes);
-      setOutputText(decodedText);
-      showSuccess("Texto decodificado de UTF-8 (Hex) com sucesso!");
+      // Get the byte values from the character codes of the input string.
+      const bytes = Uint8Array.from(
+        [...inputText],
+        char => char.charCodeAt(0)
+      );
+      // Decode these bytes as a UTF-8 stream.
+      const decoder = new TextDecoder('utf-8', { fatal: true });
+      const decodedString = decoder.decode(bytes);
+      setOutputText(decodedString);
+      showSuccess("Texto decodificado (utf8_decode) com sucesso!");
     } catch (error) {
       showError("Entrada inválida ou sequência UTF-8 malformada.");
       setOutputText("");
@@ -81,8 +82,8 @@ export const Utf8Converter = () => {
         </div>
       </div>
       <div className="flex flex-wrap items-center justify-center gap-4">
-        <Button onClick={handleEncode}>Codificar para UTF-8 (Hex)</Button>
-        <Button onClick={handleDecode}>Decodificar de UTF-8 (Hex)</Button>
+        <Button onClick={handleEncode}>Codificar (utf8_encode)</Button>
+        <Button onClick={handleDecode}>Decodificar (utf8_decode)</Button>
         <Button variant="secondary" onClick={handleSwap} size="icon" aria-label="Trocar">
           <ArrowRightLeft className="h-4 w-4" />
         </Button>

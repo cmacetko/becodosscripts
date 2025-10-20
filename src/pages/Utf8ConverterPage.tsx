@@ -9,10 +9,10 @@ const Utf8ConverterPage = () => {
       <div className="container mx-auto flex-grow p-4 sm:p-8">
         <header className="text-center mb-8 mt-4">
           <h1 className="text-4xl font-bold tracking-tight">
-            Codificador/Decodificador UTF-8
+            Conversor UTF-8 (estilo PHP)
           </h1>
           <p className="text-muted-foreground mt-2">
-            Converta texto para sua representação hexadecimal UTF-8 e vice-versa.
+            Simula as funções `utf8_encode` e `utf8_decode` do PHP para converter entre ISO-8859-1 e UTF-8.
           </p>
         </header>
         <main>
