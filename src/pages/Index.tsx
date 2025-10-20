@@ -2,7 +2,7 @@ import { Header } from "@/components/Header";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { FileCode, KeyRound, Building, CreditCard, BookOpenText, FileText, ScrollText, Binary } from "lucide-react";
+import { FileCode, KeyRound, Building, CreditCard, BookOpenText, FileText, ScrollText, Binary, CodeXml } from "lucide-react";
 import { Footer } from "@/components/Footer";
 
 const Index = () => {
@@ -54,6 +54,12 @@ const Index = () => {
       description: "Simula `utf8_encode` e `utf8_decode` do PHP para corrigir textos com codificação incorreta.",
       icon: <Binary className="h-8 w-8 text-primary" />,
       path: "/utf8-converter",
+    },
+    {
+      title: "Codificador/Decodificador HTML Entities",
+      description: "Converta caracteres para suas entidades HTML e vice-versa.",
+      icon: <CodeXml className="h-8 w-8 text-primary" />,
+      path: "/html-entities-converter",
     },
   ];
 

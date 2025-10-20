@@ -468,3 +468,18 @@ Estes termos e condições são regidos e interpretados de acordo com as leis do
         return termsText.replace(new RegExp(AAAAAA, 'g'), AAAAAA).replace(new RegExp(BBBBBB, 'g'), BBBBBB);
     }
 }
+
+// HTML Entities Converter logic
+export function htmlEncode(text: string): string {
+    if (typeof document === 'undefined') return '';
+    const element = document.createElement('div');
+    element.innerText = text;
+    return element.innerHTML;
+}
+
+export function htmlDecode(text: string): string {
+    if (typeof document === 'undefined') return '';
+    const element = document.createElement('div');
+    element.innerHTML = text;
+    return element.textContent || "";
+}
