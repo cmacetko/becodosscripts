@@ -1,94 +1,90 @@
 "use client";
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowRightLeft, Trash2 } from "lucide-react";
-import { showError, showSuccess } from "@/utils/toast";
+import { Button } from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
 
 export const Utf8Converter = () => {
-  const [inputText, setInputText] = useState("maçã");
-  const [outputText, setOutputText] = useState("");
+  const [correctText, setCorrectText] = useState("maçã");
+  const [garbledText, setGarbledText] = useState("");
 
-  // Simulates PHP's utf8_encode: Converts a string assumed to be ISO-8859-1 to UTF-8.
-  const handleEncode = () => {
+  // Simula utf8_encode do PHP: Converte texto para a representação "quebrada"
+  const encodeToGarbled = (text: string): string => {
     try {
       const encoder = new TextEncoder();
-      const utf8Bytes = encoder.encode(inputText);
+      const utf8Bytes = encoder.encode(text);
       const decoder = new TextDecoder('iso-8859-1');
-      const encodedString = decoder.decode(utf8Bytes);
-      setOutputText(encodedString);
-      showSuccess("Texto codificado (utf8_encode) com sucesso!");
-    } catch (error) {
-      showError("Ocorreu um erro ao codificar o texto.");
-      setOutputText("");
+      return decoder.decode(utf8Bytes);
+    } catch {
+      return "";
     }
   };
 
-  // Simulates PHP's utf8_decode: Converts a string from UTF-8 to ISO-8859-1.
-  // This is useful for fixing "garbled" text.
-  const handleDecode = () => {
+  // Simula utf8_decode do PHP: Corrige o texto "quebrado"
+  const decodeToCorrect = (text: string): string => {
     try {
-      // Get the byte values from the character codes of the input string.
-      const bytes = Uint8Array.from(
-        [...inputText],
-        char => char.charCodeAt(0)
-      );
-      // Decode these bytes as a UTF-8 stream.
+      const bytes = Uint8Array.from([...text], (char) => char.charCodeAt(0));
       const decoder = new TextDecoder('utf-8', { fatal: true });
-      const decodedString = decoder.decode(bytes);
-      setOutputText(decodedString);
-      showSuccess("Texto decodificado (utf8_decode) com sucesso!");
-    } catch (error) {
-      showError("Entrada inválida ou sequência UTF-8 malformada.");
-      setOutputText("");
+      return decoder.decode(bytes);
+    } catch {
+      // Retorna o texto como está se a decodificação falhar
+      return text;
     }
   };
 
-  const handleSwap = () => {
-    setInputText(outputText);
-    setOutputText(inputText);
+  useEffect(() => {
+    // Define o valor inicial do texto "quebrado" na primeira renderização
+    setGarbledText(encodeToGarbled(correctText));
+  }, []);
+
+  const handleCorrectTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newText = e.target.value;
+    setCorrectText(newText);
+    setGarbledText(encodeToGarbled(newText));
   };
 
+  const handleGarbledTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newText = e.target.value;
+    setGarbledText(newText);
+    setCorrectText(decodeToCorrect(newText));
+  };
+  
   const handleClear = () => {
-    setInputText("");
-    setOutputText("");
+    setCorrectText("");
+    setGarbledText("");
   };
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
         <div className="space-y-2">
-          <Label htmlFor="input-text">Texto de Entrada</Label>
+          <Label htmlFor="correct-text">Texto Corrigido (UTF-8)</Label>
           <Textarea
-            id="input-text"
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
+            id="correct-text"
+            value={correctText}
+            onChange={handleCorrectTextChange}
             rows={10}
-            placeholder="Digite ou cole o texto aqui..."
+            placeholder="Digite o texto correto aqui..."
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="output-text">Texto de Saída</Label>
+          <Label htmlFor="garbled-text">Texto com Problema (ISO-8859-1)</Label>
           <Textarea
-            id="output-text"
-            value={outputText}
-            readOnly
+            id="garbled-text"
+            value={garbledText}
+            onChange={handleGarbledTextChange}
             rows={10}
-            placeholder="O resultado aparecerá aqui..."
+            placeholder="Cole o texto com caracteres estranhos aqui..."
             className="font-mono"
           />
         </div>
       </div>
-      <div className="flex flex-wrap items-center justify-center gap-4">
-        <Button onClick={handleEncode}>Codificar (utf8_encode)</Button>
-        <Button onClick={handleDecode}>Decodificar (utf8_decode)</Button>
-        <Button variant="secondary" onClick={handleSwap} size="icon" aria-label="Trocar">
-          <ArrowRightLeft className="h-4 w-4" />
-        </Button>
-        <Button variant="destructive" onClick={handleClear} size="icon" aria-label="Limpar">
-          <Trash2 className="h-4 w-4" />
+       <div className="flex justify-center">
+        <Button variant="destructive" onClick={handleClear} size="sm">
+          <Trash2 className="h-4 w-4 mr-2" />
+          Limpar Campos
         </Button>
       </div>
     </div>

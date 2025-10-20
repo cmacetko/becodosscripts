@@ -12,7 +12,7 @@ const Utf8ConverterPage = () => {
             Conversor UTF-8 (estilo PHP)
           </h1>
           <p className="text-muted-foreground mt-2">
-            Simula as funções `utf8_encode` e `utf8_decode` do PHP para converter entre ISO-8859-1 e UTF-8.
+            Corrija textos com caracteres errados. A conversão é feita em tempo real enquanto você digita.
           </p>
         </header>
         <main>
