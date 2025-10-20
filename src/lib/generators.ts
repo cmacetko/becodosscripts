@@ -194,7 +194,7 @@ const LOREM_IPSUM_WORDS = [
   'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit', 'curabitur', 'vel', 'hendrerit', 'libero',
   'eleifend', 'blandit', 'nunc', 'ornare', 'odio', 'ut', 'orci', 'gravida', 'imperdiet', 'nullam', 'purus', 'lacinia',
   'a', 'pretium', 'quis', 'congue', 'praesent', 'sagittis', 'laoreet', 'auctor', 'mauris', 'non', 'velit', 'eros',
-  'dictum', 'proin', 'accumsan', 'sapien', 'nec', 'massa', 'volutpat', 'venenatis', 'sed', 'eu', 'molestie', 'lacus',
+  'dictum', 'proin', 'accunmsan', 'sapien', 'nec', 'massa', 'volutpat', 'venenatis', 'sed', 'eu', 'molestie', 'lacus',
   'quisque', 'porttitor', 'ligula', 'dui', 'mollis', 'tempus', 'at', 'magna', 'vestibulum', 'turpis', 'ac', 'diam',
   'tincidunt', 'id', 'condimentum', 'enim', 'sodales', 'in', 'hac', 'habitasse', 'platea', 'dictumst', 'aenean',
   'neque', 'fusce', 'augue', 'leo', 'eget', 'semper', 'mattis', 'tortor', 'scelerisque', 'nulla', 'interdum',
@@ -471,10 +471,24 @@ Estes termos e condições são regidos e interpretados de acordo com as leis do
 
 // HTML Entities Converter logic
 export function htmlEncode(text: string): string {
-    if (typeof document === 'undefined') return '';
-    const element = document.createElement('div');
-    element.innerText = text;
-    return element.innerHTML;
+    return [...text].map(char => {
+        const codePoint = char.codePointAt(0);
+        
+        // Encode any character with a code point > 127 (non-ASCII), which includes emojis,
+        // as well as the essential HTML special characters.
+        if (codePoint && codePoint > 127) {
+            return `&#${codePoint};`;
+        }
+
+        switch (char) {
+            case '<': return '&lt;';
+            case '>': return '&gt;';
+            case '&': return '&amp;';
+            case '"': return '&quot;';
+            case "'": return '&#39;';
+            default: return char;
+        }
+    }).join('');
 }
 
 export function htmlDecode(text: string): string {
