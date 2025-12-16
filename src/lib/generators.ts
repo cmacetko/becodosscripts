@@ -1,31 +1,31 @@
 // CPF generation logic
 function randomDigit() {
-  return Math.floor(Math.random() * 10);
+    return Math.floor(Math.random() * 10);
 }
 
 function calculateVerifierDigit(digits: number[]): number {
-  let sum = 0;
-  let multiplier = digits.length + 1;
-  for (const digit of digits) {
-    sum += digit * multiplier;
-    multiplier--;
-  }
-  const remainder = sum % 11;
-  const digit = remainder < 2 ? 0 : 11 - remainder;
-  return digit;
+    let sum = 0;
+    let multiplier = digits.length + 1;
+    for (const digit of digits) {
+        sum += digit * multiplier;
+        multiplier--;
+    }
+    const remainder = sum % 11;
+    const digit = remainder < 2 ? 0 : 11 - remainder;
+    return digit;
 }
 
 export function generateCpf(withPunctuation = true): string {
-  const baseDigits = Array.from({ length: 9 }, randomDigit);
-  const firstVerifier = calculateVerifierDigit(baseDigits);
-  const secondVerifier = calculateVerifierDigit([...baseDigits, firstVerifier]);
-  const cpfArray = [...baseDigits, firstVerifier, secondVerifier];
-  const cpfString = cpfArray.join('');
+    const baseDigits = Array.from({ length: 9 }, randomDigit);
+    const firstVerifier = calculateVerifierDigit(baseDigits);
+    const secondVerifier = calculateVerifierDigit([...baseDigits, firstVerifier]);
+    const cpfArray = [...baseDigits, firstVerifier, secondVerifier];
+    const cpfString = cpfArray.join('');
 
-  if (withPunctuation) {
-    return cpfString.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-  }
-  return cpfString;
+    if (withPunctuation) {
+        return cpfString.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    }
+    return cpfString;
 }
 
 // CNPJ generation logic
@@ -63,183 +63,203 @@ export function generateCnpj(withPunctuation = true): string {
 
 // Password generation logic
 const CHAR_SETS = {
-  uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-  lowercase: 'abcdefghijklmnopqrstuvwxyz',
-  numbers: '0123456789',
-  symbols: '!@#$%^&*()_+-=[]{}|;:,.<>?',
+    uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    lowercase: 'abcdefghijklmnopqrstuvwxyz',
+    numbers: '0123456789',
+    symbols: '!@#$%^&*()_+-=[]{}|;:,.<>?',
 };
 
 interface PasswordOptions {
-  length: number;
-  uppercase: boolean;
-  lowercase: boolean;
-  numbers: boolean;
-  symbols: boolean;
+    length: number;
+    uppercase: boolean;
+    lowercase: boolean;
+    numbers: boolean;
+    symbols: boolean;
+    excludeAmbiguous?: boolean;
 }
 
 export function generatePassword(options: PasswordOptions): string {
-  const { length, uppercase, lowercase, numbers, symbols } = options;
-  let charset = '';
-  let password = '';
-  
-  const selectedSets = [];
+    const { length, uppercase, lowercase, numbers, symbols, excludeAmbiguous } = options;
+    let charset = '';
+    let password = '';
 
-  if (uppercase) {
-    charset += CHAR_SETS.uppercase;
-    selectedSets.push(CHAR_SETS.uppercase);
-  }
-  if (lowercase) {
-    charset += CHAR_SETS.lowercase;
-    selectedSets.push(CHAR_SETS.lowercase);
-  }
-  if (numbers) {
-    charset += CHAR_SETS.numbers;
-    selectedSets.push(CHAR_SETS.numbers);
-  }
-  if (symbols) {
-    charset += CHAR_SETS.symbols;
-    selectedSets.push(CHAR_SETS.symbols);
-  }
+    const selectedSets = [];
 
-  if (charset === '') {
-    return ''; // Retorna string vazia se nenhum tipo de caractere for selecionado
-  }
-  
-  for (const set of selectedSets) {
-      password += set[Math.floor(Math.random() * set.length)];
-  }
+    const AMBIGUOUS = ['I', 'l', '1', '0', 'O'];
 
-  const remainingLength = length - password.length;
-  for (let i = 0; i < remainingLength; i++) {
-    const randomIndex = Math.floor(Math.random() * charset.length);
-    password += charset[randomIndex];
-  }
-  
-  return password.split('').sort(() => 0.5 - Math.random()).join('');
+    const filterAmbiguous = (set: string) => {
+        if (!excludeAmbiguous) return set;
+        return set.split('').filter(c => !AMBIGUOUS.includes(c)).join('');
+    };
+
+    if (uppercase) {
+        const set = filterAmbiguous(CHAR_SETS.uppercase);
+        if (set) {
+            charset += set;
+            selectedSets.push(set);
+        }
+    }
+    if (lowercase) {
+        const set = filterAmbiguous(CHAR_SETS.lowercase);
+        if (set) {
+            charset += set;
+            selectedSets.push(set);
+        }
+    }
+    if (numbers) {
+        const set = filterAmbiguous(CHAR_SETS.numbers);
+        if (set) {
+            charset += set;
+            selectedSets.push(set);
+        }
+    }
+    if (symbols) {
+        // Symbols aren't usually considered ambiguous in this sense, but we keep them as is
+        charset += CHAR_SETS.symbols;
+        selectedSets.push(CHAR_SETS.symbols);
+    }
+
+    if (charset === '') {
+        return ''; // Retorna string vazia se nenhum tipo de caractere for selecionado
+    }
+
+    for (const set of selectedSets) {
+        if (set.length > 0) { // Ensure set is not empty after filtering
+            password += set[Math.floor(Math.random() * set.length)];
+        }
+    }
+
+    const remainingLength = length - password.length;
+    for (let i = 0; i < remainingLength; i++) {
+        const randomIndex = Math.floor(Math.random() * charset.length);
+        password += charset[randomIndex];
+    }
+
+    return password.split('').sort(() => 0.5 - Math.random()).join('');
 }
 
 // Credit Card generation logic
 function luhnCheck(cardNumber: string): boolean {
-  let sum = 0;
-  let double = false;
-  for (let i = cardNumber.length - 1; i >= 0; i--) {
-    let digit = parseInt(cardNumber.charAt(i), 10);
-    if (double) {
-      digit *= 2;
-      if (digit > 9) {
-        digit -= 9;
-      }
+    let sum = 0;
+    let double = false;
+    for (let i = cardNumber.length - 1; i >= 0; i--) {
+        let digit = parseInt(cardNumber.charAt(i), 10);
+        if (double) {
+            digit *= 2;
+            if (digit > 9) {
+                digit -= 9;
+            }
+        }
+        sum += digit;
+        double = !double;
     }
-    sum += digit;
-    double = !double;
-  }
-  return (sum % 10) === 0;
+    return (sum % 10) === 0;
 }
 
 function generatePartialNumber(prefix: string, totalLength: number): string {
-  let partial = prefix;
-  while (partial.length < totalLength - 1) { // -1 for the Luhn check digit
-    partial += Math.floor(Math.random() * 10);
-  }
-  return partial;
+    let partial = prefix;
+    while (partial.length < totalLength - 1) { // -1 for the Luhn check digit
+        partial += Math.floor(Math.random() * 10);
+    }
+    return partial;
 }
 
 function generateValidCardNumber(prefix: string, totalLength: number): string {
-  let partial = generatePartialNumber(prefix, totalLength);
-  let checkDigit = 0;
-  for (let i = 0; i < 10; i++) { // Iterate through possible check digits (0-9)
-    const tempCard = partial + i;
-    if (luhnCheck(tempCard)) {
-      checkDigit = i;
-      break;
+    let partial = generatePartialNumber(prefix, totalLength);
+    let checkDigit = 0;
+    for (let i = 0; i < 10; i++) { // Iterate through possible check digits (0-9)
+        const tempCard = partial + i;
+        if (luhnCheck(tempCard)) {
+            checkDigit = i;
+            break;
+        }
     }
-  }
-  return partial + checkDigit;
+    return partial + checkDigit;
 }
 
 interface CreditCardBrand {
-  name: string;
-  prefixes: string[];
-  lengths: number[];
+    name: string;
+    prefixes: string[];
+    lengths: number[];
 }
 
 const CREDIT_CARD_BRANDS: CreditCardBrand[] = [
-  { name: "Visa", prefixes: ["4"], lengths: [16] },
-  { name: "Mastercard", prefixes: ["51", "52", "53", "54", "55"], lengths: [16] },
-  { name: "American Express", prefixes: ["34", "37"], lengths: [15] },
-  { name: "Discover", prefixes: ["6011", "644", "645", "646", "647", "648", "649", "65"], lengths: [16] },
-  { name: "Diners Club", prefixes: ["300", "301", "302", "303", "304", "305", "36", "38", "39"], lengths: [14, 16] },
-  { name: "JCB", prefixes: ["3528", "3529", "353", "354", "355", "356", "357", "358"], lengths: [16] },
+    { name: "Visa", prefixes: ["4"], lengths: [16] },
+    { name: "Mastercard", prefixes: ["51", "52", "53", "54", "55"], lengths: [16] },
+    { name: "American Express", prefixes: ["34", "37"], lengths: [15] },
+    { name: "Discover", prefixes: ["6011", "644", "645", "646", "647", "648", "649", "65"], lengths: [16] },
+    { name: "Diners Club", prefixes: ["300", "301", "302", "303", "304", "305", "36", "38", "39"], lengths: [14, 16] },
+    { name: "JCB", prefixes: ["3528", "3529", "353", "354", "355", "356", "357", "358"], lengths: [16] },
 ];
 
 export function generateCreditCard(brandName: string): string {
-  const brand = CREDIT_CARD_BRANDS.find(b => b.name.toLowerCase() === brandName.toLowerCase());
-  if (!brand) {
-    console.warn(`Brand "${brandName}" not found. Cannot generate card.`);
-    return "";
-  }
+    const brand = CREDIT_CARD_BRANDS.find(b => b.name.toLowerCase() === brandName.toLowerCase());
+    if (!brand) {
+        console.warn(`Brand "${brandName}" not found. Cannot generate card.`);
+        return "";
+    }
 
-  const prefix = brand.prefixes[Math.floor(Math.random() * brand.prefixes.length)];
-  const length = brand.lengths[Math.floor(Math.random() * brand.lengths.length)];
+    const prefix = brand.prefixes[Math.floor(Math.random() * brand.prefixes.length)];
+    const length = brand.lengths[Math.floor(Math.random() * brand.lengths.length)];
 
-  return generateValidCardNumber(prefix, length);
+    return generateValidCardNumber(prefix, length);
 }
 
 export function getAllCreditCardBrands(): CreditCardBrand[] {
-  return CREDIT_CARD_BRANDS;
+    return CREDIT_CARD_BRANDS;
 }
 
 // Lorem Ipsum generation logic
 const LOREM_IPSUM_WORDS = [
-  'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit', 'curabitur', 'vel', 'hendrerit', 'libero',
-  'eleifend', 'blandit', 'nunc', 'ornare', 'odio', 'ut', 'orci', 'gravida', 'imperdiet', 'nullam', 'purus', 'lacinia',
-  'a', 'pretium', 'quis', 'congue', 'praesent', 'sagittis', 'laoreet', 'auctor', 'mauris', 'non', 'velit', 'eros',
-  'dictum', 'proin', 'accunmsan', 'sapien', 'nec', 'massa', 'volutpat', 'venenatis', 'sed', 'eu', 'molestie', 'lacus',
-  'quisque', 'porttitor', 'ligula', 'dui', 'mollis', 'tempus', 'at', 'magna', 'vestibulum', 'turpis', 'ac', 'diam',
-  'tincidunt', 'id', 'condimentum', 'enim', 'sodales', 'in', 'hac', 'habitasse', 'platea', 'dictumst', 'aenean',
-  'neque', 'fusce', 'augue', 'leo', 'eget', 'semper', 'mattis', 'tortor', 'scelerisque', 'nulla', 'interdum',
-  'tellus', 'malesuada', 'rhoncus', 'porta', 'sem', 'aliquet', 'et', 'nam', 'suspendisse', 'potenti', 'vivamus',
-  'luctus', 'fringilla', 'erat', 'donec', 'justo', 'vehicula', 'ultricies', 'varius', 'ante', 'primis', 'in',
-  'faucibus', 'orci', 'luctus', 'et', 'ultrices', 'posuere', 'cubilia', 'curae', 'etiam', 'cursus', 'aliquam',
-  'quam', 'dapibus', 'nisl', 'feugiat', 'egestas', 'class', 'aptent', 'taciti', 'sociosqu', 'ad', 'litora',
-  'torquent', 'per', 'conubia', 'nostra', 'inceptos', 'himenaeos', 'phasellus', 'nibh', 'pulvinar', 'vitae',
-  'urna', 'iaculis', 'lobortis', 'nisi', 'viverra', 'arcu', 'morbi', 'pellentesque', 'metus', 'commodo', 'ut',
-  'facilisis', 'felis', 'tristique', 'ullamcorper', 'placerat', 'aenean', 'convallis', 'sollicitudin', 'integer',
-  'rutrum', 'duis', 'est', 'etiam', 'bibendum', 'donec', 'pharetra', 'vulputate', 'maecenas', 'mi', 'fermentum',
-  'consequat', 'suscipit', 'aliquam', 'habitant', 'senectus', 'netus', 'fames', 'quisque', 'euismod', 'curabitur',
-  'lectus', 'elementum', 'tempor', 'risus', 'cras'
+    'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit', 'curabitur', 'vel', 'hendrerit', 'libero',
+    'eleifend', 'blandit', 'nunc', 'ornare', 'odio', 'ut', 'orci', 'gravida', 'imperdiet', 'nullam', 'purus', 'lacinia',
+    'a', 'pretium', 'quis', 'congue', 'praesent', 'sagittis', 'laoreet', 'auctor', 'mauris', 'non', 'velit', 'eros',
+    'dictum', 'proin', 'accunmsan', 'sapien', 'nec', 'massa', 'volutpat', 'venenatis', 'sed', 'eu', 'molestie', 'lacus',
+    'quisque', 'porttitor', 'ligula', 'dui', 'mollis', 'tempus', 'at', 'magna', 'vestibulum', 'turpis', 'ac', 'diam',
+    'tincidunt', 'id', 'condimentum', 'enim', 'sodales', 'in', 'hac', 'habitasse', 'platea', 'dictumst', 'aenean',
+    'neque', 'fusce', 'augue', 'leo', 'eget', 'semper', 'mattis', 'tortor', 'scelerisque', 'nulla', 'interdum',
+    'tellus', 'malesuada', 'rhoncus', 'porta', 'sem', 'aliquet', 'et', 'nam', 'suspendisse', 'potenti', 'vivamus',
+    'luctus', 'fringilla', 'erat', 'donec', 'justo', 'vehicula', 'ultricies', 'varius', 'ante', 'primis', 'in',
+    'faucibus', 'orci', 'luctus', 'et', 'ultrices', 'posuere', 'cubilia', 'curae', 'etiam', 'cursus', 'aliquam',
+    'quam', 'dapibus', 'nisl', 'feugiat', 'egestas', 'class', 'aptent', 'taciti', 'sociosqu', 'ad', 'litora',
+    'torquent', 'per', 'conubia', 'nostra', 'inceptos', 'himenaeos', 'phasellus', 'nibh', 'pulvinar', 'vitae',
+    'urna', 'iaculis', 'lobortis', 'nisi', 'viverra', 'arcu', 'morbi', 'pellentesque', 'metus', 'commodo', 'ut',
+    'facilisis', 'felis', 'tristique', 'ullamcorper', 'placerat', 'aenean', 'convallis', 'sollicitudin', 'integer',
+    'rutrum', 'duis', 'est', 'etiam', 'bibendum', 'donec', 'pharetra', 'vulputate', 'maecenas', 'mi', 'fermentum',
+    'consequat', 'suscipit', 'aliquam', 'habitant', 'senectus', 'netus', 'fames', 'quisque', 'euismod', 'curabitur',
+    'lectus', 'elementum', 'tempor', 'risus', 'cras'
 ];
 
 function generateSentence(wordCount: number): string {
-  let sentence = '';
-  for (let i = 0; i < wordCount; i++) {
-    sentence += LOREM_IPSUM_WORDS[Math.floor(Math.random() * LOREM_IPSUM_WORDS.length)] + ' ';
-  }
-  sentence = sentence.trim();
-  return sentence.charAt(0).toUpperCase() + sentence.slice(1) + '.';
+    let sentence = '';
+    for (let i = 0; i < wordCount; i++) {
+        sentence += LOREM_IPSUM_WORDS[Math.floor(Math.random() * LOREM_IPSUM_WORDS.length)] + ' ';
+    }
+    sentence = sentence.trim();
+    return sentence.charAt(0).toUpperCase() + sentence.slice(1) + '.';
 }
 
 function generateParagraph(sentenceCount: number): string {
-  let paragraph = '';
-  for (let i = 0; i < sentenceCount; i++) {
-    const wordCount = Math.floor(Math.random() * 10) + 5; // Sentences with 5 to 14 words
-    paragraph += generateSentence(wordCount) + ' ';
-  }
-  return paragraph.trim();
+    let paragraph = '';
+    for (let i = 0; i < sentenceCount; i++) {
+        const wordCount = Math.floor(Math.random() * 10) + 5; // Sentences with 5 to 14 words
+        paragraph += generateSentence(wordCount) + ' ';
+    }
+    return paragraph.trim();
 }
 
 export function generateLoremIpsum(paragraphCount: number, format: 'html' | 'text'): string {
-  const paragraphs = [];
-  for (let i = 0; i < paragraphCount; i++) {
-    const sentenceCount = Math.floor(Math.random() * 4) + 4; // Paragraphs with 4 to 7 sentences
-    paragraphs.push(generateParagraph(sentenceCount));
-  }
+    const paragraphs = [];
+    for (let i = 0; i < paragraphCount; i++) {
+        const sentenceCount = Math.floor(Math.random() * 4) + 4; // Paragraphs with 4 to 7 sentences
+        paragraphs.push(generateParagraph(sentenceCount));
+    }
 
-  if (format === 'html') {
-    return paragraphs.map(p => `<p>${p}</p>`).join('\n');
-  } else {
-    return paragraphs.join('\n\n');
-  }
+    if (format === 'html') {
+        return paragraphs.map(p => `<p>${p}</p>`).join('\n');
+    } else {
+        return paragraphs.join('\n\n');
+    }
 }
 
 // Privacy Policy generation logic
@@ -251,7 +271,7 @@ interface PolicyOptions {
 
 export function generatePrivacyPolicy(options: PolicyOptions): string {
     const { siteName, siteUrl, format } = options;
-    
+
     const AAAAAA = siteName || 'Nome do Site';
     const BBBBBB = siteUrl || 'URL do Site';
 
@@ -301,17 +321,17 @@ Esperemos que esteja esclarecido e, como mencionado anteriormente, se houver alg
                 if (block.startsWith('Compromisso do Usuário') || block.startsWith('Mais informações')) {
                     const [title, ...rest] = block.split('\n');
                     let content = `<h2>${title.trim()}</h2>`;
-                    
+
                     // Trata listas (A), B), C) ou -)
                     const listItems = rest.filter(line => line.trim().match(/^(\-|\w\))/));
-                    
+
                     if (listItems.length > 0) {
                         content += '<ul>' + listItems.map(item => {
                             // Remove prefixos como 'A) ' ou '- '
                             const cleanItem = item.trim().replace(/^(\w\)\s*|\-\s*)/, '').trim();
                             return `<li>${cleanItem}</li>`;
                         }).join('') + '</ul>';
-                        
+
                         // Adiciona o restante do texto que não é lista como parágrafo
                         const remainingText = rest.filter(line => !line.trim().match(/^(\-|\w\))/)).join(' ').trim();
                         if (remainingText) {
@@ -323,18 +343,18 @@ Esperemos que esteja esclarecido e, como mencionado anteriormente, se houver alg
                     }
                     return content;
                 }
-                
+
                 // Trata parágrafos simples
                 return `<p>${block}</p>`;
             })
             .join('\n');
-            
+
         // Substitui todas as ocorrências de BBBBBB por um link, se houver.
         let finalHtml = htmlContent.replace(new RegExp(BBBBBB, 'g'), `<a href="${BBBBBB}" target="_blank">${BBBBBB}</a>`);
-        
+
         // Substitui AAAAAA
         finalHtml = finalHtml.replace(new RegExp(AAAAAA, 'g'), AAAAAA);
-        
+
         // Adiciona quebras de linha para melhor legibilidade do código HTML gerado
         return finalHtml.replace(/<\/p><p>/g, '</p>\n<p>').replace(/<\/ul><h2>/g, '</ul>\n\n<h2>');
 
@@ -347,7 +367,7 @@ Esperemos que esteja esclarecido e, como mencionado anteriormente, se houver alg
 // Terms and Conditions generation logic
 export function generateTermsAndConditions(options: PolicyOptions): string {
     const { siteName, siteUrl, format } = options;
-    
+
     const AAAAAA = siteName || 'Nome do Site';
     const BBBBBB = siteUrl || 'URL do Site';
 
@@ -405,14 +425,14 @@ Estes termos e condições são regidos e interpretados de acordo com as leis do
                 if (block.match(/^\d+\.\s/)) {
                     const [titleLine, ...rest] = block.split('\n');
                     const titleMatch = titleLine.match(/^(\d+\.\s)(.*)/);
-                    
+
                     if (titleMatch) {
                         const title = titleMatch[2].trim();
                         let content = `<h2>${title}</h2>`;
-                        
+
                         // Trata listas (começam com -)
                         const listItems = rest.filter(line => line.trim().startsWith('-'));
-                        
+
                         if (listItems.length > 0) {
                             // Adiciona o parágrafo introdutório antes da lista
                             const introParagraph = rest.slice(0, rest.indexOf(listItems[0])).join(' ').trim();
@@ -424,7 +444,7 @@ Estes termos e condições são regidos e interpretados de acordo com as leis do
                                 const cleanItem = item.trim().replace(/^\-\s*/, '').trim();
                                 return `<li>${cleanItem}</li>`;
                             }).join('') + '</ul>';
-                            
+
                             // Adiciona o restante do texto que não é lista como parágrafo
                             const remainingText = rest.slice(rest.indexOf(listItems[listItems.length - 1]) + 1).join(' ').trim();
                             if (remainingText) {
@@ -437,29 +457,29 @@ Estes termos e condições são regidos e interpretados de acordo com as leis do
                         return content;
                     }
                 }
-                
+
                 // Trata seções sem número (Modificações, Lei aplicável)
                 if (block.match(/^(Modificações|Lei aplicável)$/)) {
                     return `<h2>${block}</h2>`;
                 }
-                
+
                 // Trata parágrafos simples dentro de seções
                 if (block.startsWith('- ')) {
                     // Trata itens de lista dentro de seções numeradas (como Isenção de responsabilidade)
                     return `<p>${block.replace(/^\-\s*/, '').trim()}</p>`;
                 }
-                
+
                 // Trata parágrafos simples
                 return `<p>${block}</p>`;
             })
             .join('\n');
-            
+
         // Substitui todas as ocorrências de BBBBBB por um link.
         let finalHtml = htmlContent.replace(new RegExp(BBBBBB, 'g'), `<a href="${BBBBBB}" target="_blank">${BBBBBB}</a>`);
-        
+
         // Substitui AAAAAA
         finalHtml = finalHtml.replace(new RegExp(AAAAAA, 'g'), AAAAAA);
-        
+
         // Adiciona quebras de linha para melhor legibilidade do código HTML gerado
         return finalHtml.replace(/<\/p><p>/g, '</p>\n<p>').replace(/<\/ul><h2>/g, '</ul>\n\n<h2>').replace(/<\/p><h2>/g, '</p>\n\n<h2>');
 
@@ -473,7 +493,7 @@ Estes termos e condições são regidos e interpretados de acordo com as leis do
 export function htmlEncode(text: string): string {
     return [...text].map(char => {
         const codePoint = char.codePointAt(0);
-        
+
         // Encode any character with a code point > 127 (non-ASCII), which includes emojis,
         // as well as the essential HTML special characters.
         if (codePoint && codePoint > 127) {

@@ -1,27 +1,21 @@
 import { CnpjGenerator } from "@/components/CnpjGenerator";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer"; // Importar o novo Footer
 
 const CnpjGeneratorPage = () => {
-  return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
-      <Header />
-      <div className="container mx-auto flex-grow p-4 sm:p-8">
-        <header className="text-center mb-8 mt-4">
-          <h1 className="text-4xl font-bold tracking-tight">
-            Gerador de CNPJ
-          </h1>
-          <p className="text-muted-foreground mt-2">
-            Gere números de CNPJ válidos para suas necessidades de desenvolvimento.
-          </p>
-        </header>
-        <main>
-          <CnpjGenerator />
-        </main>
-      </div>
-      <Footer /> {/* Usar o novo Footer */}
-    </div>
-  );
+    return (
+        <>
+            <header className="text-center mb-8 mt-4">
+                <h1 className="text-4xl font-bold tracking-tight">
+                    Gerador de CNPJ
+                </h1>
+                <p className="text-muted-foreground mt-2">
+                    Gere números de CNPJ válidos para suas necessidades de desenvolvimento.
+                </p>
+            </header>
+            <main>
+                <CnpjGenerator />
+            </main>
+        </>
+    );
 };
 
 export default CnpjGeneratorPage;

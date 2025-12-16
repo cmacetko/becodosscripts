@@ -1,0 +1,12 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "files.encoding": "utf8",
+        "files.autoGuessEncoding": false,
+        "claudeCode.useCtrlEnterToSend": true
+    }
+}

@@ -1,21 +1,21 @@
-import { PasswordGenerator } from "@/components/PasswordGenerator";
+import { UuidGenerator } from "@/components/UuidGenerator";
 
-const PasswordGeneratorPage = () => {
+const UuidGeneratorPage = () => {
     return (
         <>
             <header className="text-center mb-8 mt-4">
                 <h1 className="text-4xl font-bold tracking-tight">
-                    Gerador de Senhas
+                    Gerador de UUID v4
                 </h1>
                 <p className="text-muted-foreground mt-2">
-                    Gere senhas fortes e personalizáveis.
+                    Gere Identificadores Únicos Universais (UUIDs) versão 4.
                 </p>
             </header>
             <main>
-                <PasswordGenerator />
+                <UuidGenerator />
             </main>
         </>
     );
 };
 
-export default PasswordGeneratorPage;
+export default UuidGeneratorPage;

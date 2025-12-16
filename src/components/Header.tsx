@@ -1,77 +1,55 @@
 "use client";
 
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Wrench } from "lucide-react"; // Importando o ícone Wrench
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Menu, Search } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
+import { AppSidebar } from "./AppSidebar";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 export const Header = () => {
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const location = useLocation();
+    const [isSheetOpen, setIsSheetOpen] = useState(false);
+    const location = useLocation();
 
-  const navItems = [
-    { name: "Ferramentas", path: "/" }
-  ];
+    // Close sheet on route change
+    useEffect(() => {
+        setIsSheetOpen(false);
+    }, [location]);
 
-  return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center justify-between">
-        <Link to="/" className="mr-4 flex items-center">
-          <Wrench className="h-5 w-5 mr-2" /> {/* Usando o ícone Wrench */}
-          <span className="font-bold text-lg">Beco dos Scripts</span>
-        </Link>
+    return (
+        <header className="sticky top-0 z-30 h-16 w-full border-b bg-background/80 px-4 sm:px-6 lg:px-8 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="mx-auto w-full max-w-[1600px] flex items-center gap-4 h-full">
+                {/* Mobile Sidebar Trigger */}
+                <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+                    <SheetTrigger asChild>
+                        <Button variant="outline" size="icon" className="md:hidden shrink-0">
+                            <Menu className="h-5 w-5" />
+                            <span className="sr-only">Menu</span>
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="p-0 w-72 border-r">
+                        <AppSidebar onItemClick={() => setIsSheetOpen(false)} />
+                    </SheetContent>
+                </Sheet>
 
-        {/* Navegação para Desktop */}
-        <nav className="hidden md:flex items-center space-x-4">
-          {navItems.map((item) => (
-            <Button
-              key={item.path}
-              variant="secondary"
-              asChild
-            >
-              <Link
-                to={item.path}
-                className={cn(
-                  "text-sm font-medium transition-colors text-foreground hover:text-primary"
-                )}
-              >
-                {item.name}
-              </Link>
-            </Button>
-          ))}
-        </nav>
+                {/* Breadcrumbs or Page Title could go here */}
+                <div className="flex-1">
+                    {/* Placeholder for Breadcrumbs if needed later */}
+                </div>
 
-        {/* Navegação para Mobile */}
-        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-          <SheetTrigger asChild className="md:hidden">
-            <Button variant="secondary" size="icon">
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">Alternar Menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-[200px] sm:w-[240px]">
-            <Link to="/" className="flex items-center mb-6" onClick={() => setIsSheetOpen(false)}>
-              <Wrench className="h-5 w-5 mr-2" /> {/* Usando o ícone Wrench no menu mobile também */}
-              <span className="font-bold text-lg">Beco dos Scripts</span>
-            </Link>
-            <nav className="flex flex-col gap-2">
-              {navItems.map((item) => (
-                <Button
-                  key={item.path}
-                  variant={"ghost"}
-                  onClick={() => setIsSheetOpen(false)}
-                  asChild
-                  className="justify-start"
-                >
-                  <Link to={item.path}>{item.name}</Link>
-                </Button>
-              ))}
-            </nav>
-          </SheetContent>
-        </Sheet>
-      </div>
-    </header>
-  );
+                <div className="flex items-center gap-2">
+                    <Button variant="outline" size="sm" className="hidden md:flex text-muted-foreground w-64 justify-start" onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}>
+                        <Search className="mr-2 h-4 w-4" />
+                        <span>Buscar ferramenta...</span>
+                        <kbd className="pointer-events-none ml-auto inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+                            <span className="text-xs">⌘</span>K
+                        </kbd>
+                    </Button>
+                    <ThemeToggle />
+                </div>
+            </div>
+        </header>
+    );
 };
