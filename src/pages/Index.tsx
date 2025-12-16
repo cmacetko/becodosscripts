@@ -27,7 +27,7 @@ const Index = () => {
                         className="group h-full"
                         style={{ animationDelay: `${index * 50}ms` }}
                     >
-                        <Card className="h-full flex flex-col items-start text-left p-6 bg-card hover:bg-muted/50 transition-all duration-300 border-border/50 hover:border-primary/20 shadow-sm hover:shadow-md animate-scale-in group-hover:-translate-y-1">
+                        <Card className="h-full flex flex-col items-start text-left p-6 bg-card transition-all duration-300 border-border/50 hover:border-primary/20 shadow-sm hover:shadow-md animate-scale-in group-hover:-translate-y-1">
                             <div className="mb-4 p-3 rounded-xl bg-primary/5 text-primary group-hover:bg-primary/10 transition-colors">
                                 {tool.icon}
                             </div>

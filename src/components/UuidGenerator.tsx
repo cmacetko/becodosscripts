@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ResultItem } from "./ResultItem";
 import { Slider } from "@/components/ui/slider";
@@ -6,12 +6,16 @@ import { Label } from "@/components/ui/label";
 
 export const UuidGenerator = () => {
     const [uuids, setUuids] = useState<string[]>([]);
-    const [count, setCount] = useState(1);
+    const [count, setCount] = useState(6);
 
     const generateUuid = () => {
         const newUuids = Array.from({ length: count }, () => crypto.randomUUID());
         setUuids(newUuids);
     };
+
+    useEffect(() => {
+        setUuids(Array.from({ length: 6 }, () => crypto.randomUUID()));
+    }, []);
 
     return (
         <div className="space-y-6">

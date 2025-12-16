@@ -63,7 +63,7 @@ const JsonFormatterPage = () => {
     };
 
     return (
-        <div className="max-w-6xl mx-auto space-y-8 animate-fade-in">
+        <div className="w-full max-w-none mx-auto space-y-8 animate-fade-in">
             <Helmet>
                 <title>Formatador e Validador JSON - BecodosScripts</title>
                 <meta name="description" content="Formate, valide e minifique JSON online. Ferramenta gratuita para desenvolvedores com realce de sintaxe e detecção de erros." />

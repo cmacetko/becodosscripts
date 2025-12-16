@@ -63,7 +63,7 @@ const JwtDecoderPage = () => {
     };
 
     return (
-        <div className="max-w-6xl mx-auto space-y-8 animate-fade-in">
+        <div className="w-full max-w-none mx-auto space-y-8 animate-fade-in">
             <Helmet>
                 <title>Decodificador JWT - BecodosScripts</title>
                 <meta name="description" content="Decodifique e inspecione tokens JWT (JSON Web Tokens) de forma segura no seu navegador. Visualize header, payload e status de expiração." />

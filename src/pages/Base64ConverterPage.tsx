@@ -49,7 +49,7 @@ const Base64ConverterPage = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
+        <div className="w-full max-w-none mx-auto space-y-8 animate-fade-in">
             <Helmet>
                 <title>Conversor Base64 - BecodosScripts</title>
                 <meta name="description" content="Converta texto e arquivos para Base64 e vice-versa. Ferramenta online gratuita para encode e decode." />

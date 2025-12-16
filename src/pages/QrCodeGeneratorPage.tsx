@@ -67,7 +67,7 @@ const QrCodeGeneratorPage = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
+        <div className="w-full max-w-none mx-auto space-y-8 animate-fade-in">
             <Helmet>
                 <title>Gerador de QR Code - BecodosScripts</title>
                 <meta name="description" content="Crie QR Codes personalizados para links, textos ou redes Wi-Fi gratuitamente. Baixe em formato PNG ou SVG." />

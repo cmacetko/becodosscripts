@@ -48,7 +48,7 @@ const DiffCheckerPage = () => {
     };
 
     return (
-        <div className="max-w-6xl mx-auto space-y-8 animate-fade-in">
+        <div className="w-full max-w-none mx-auto space-y-8 animate-fade-in">
             <Helmet>
                 <title>Comparador de Texto (Diff Checker) - BecodosScripts</title>
                 <meta name="description" content="Compare dois textos e encontre as diferenças entre eles. Suporta comparação por caracteres, palavras ou linhas." />

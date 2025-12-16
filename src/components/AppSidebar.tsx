@@ -23,11 +23,11 @@ export function AppSidebar({ className, onItemClick }: AppSidebarProps) {
 
     // Group tools by category
     const categories: Record<ToolCategory, typeof tools> = {
-        Development: [],
+        Documents: [],
         Security: [],
+        Development: [],
         Text: [],
-        Legal: [],
-        Documents: []
+        Legal: []
     };
 
     tools.forEach(tool => {
@@ -37,15 +37,15 @@ export function AppSidebar({ className, onItemClick }: AppSidebarProps) {
     });
 
     const categoryIcons: Record<ToolCategory, string> = {
-        Development: "🚀",
-        Security: "🔒",
+        Documents: "📄",
+        Security: "�",
+        Development: "�",
         Text: "✍️",
-        Legal: "⚖️",
-        Documents: "📄"
+        Legal: "⚖️"
     };
 
     return (
-        <div className={cn("pb-12 h-screen border-r bg-sidebar", className)}>
+        <div className={cn("h-screen border-r bg-sidebar", className)}>
             <div className="space-y-4 py-4 h-full flex flex-col">
                 <div className="px-6 py-2 flex items-center">
                     <Link to="/" className="flex items-center gap-2 font-bold text-xl text-primary" onClick={onItemClick}>
@@ -59,10 +59,7 @@ export function AppSidebar({ className, onItemClick }: AppSidebarProps) {
                 <ScrollArea className="flex-1 px-4">
                     <div className="space-y-4 py-2">
                         <div className="py-2">
-                            <h2 className="mb-2 px-2 text-lg font-semibold tracking-tight">
-                                Ferramentas
-                            </h2>
-                            <Accordion type="multiple" defaultValue={["Development", "Documents", "Security", "Text", "Legal"]} className="w-full space-y-2">
+                            <Accordion type="multiple" defaultValue={["Documents", "Security", "Development", "Text", "Legal"]} className="w-full space-y-2">
                                 {(Object.keys(categories) as ToolCategory[]).map((category) => (
                                     <AccordionItem value={category} key={category} className="border-none">
                                         <AccordionTrigger className="px-2 py-2 hover:bg-sidebar-accent/50 rounded-md hover:no-underline transition-all [&[data-state=open]>svg]:rotate-90">
@@ -104,11 +101,6 @@ export function AppSidebar({ className, onItemClick }: AppSidebarProps) {
                     </div>
                 </ScrollArea>
 
-                <div className="px-6 py-4 border-t border-sidebar-border mt-auto">
-                    <p className="text-xs text-muted-foreground text-center">
-                        &copy; {new Date().getFullYear()} Beco dos Scripts
-                    </p>
-                </div>
             </div>
         </div>
     );

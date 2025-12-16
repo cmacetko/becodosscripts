@@ -2,14 +2,19 @@
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Menu, Search } from "lucide-react";
-import { ThemeToggle } from "./ThemeToggle";
+import { Menu, Search, PanelLeft } from "lucide-react";
+
 import { AppSidebar } from "./AppSidebar";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
-export const Header = () => {
+interface HeaderProps {
+    isSidebarOpen?: boolean;
+    onToggleSidebar?: () => void;
+}
+
+export const Header = ({ isSidebarOpen, onToggleSidebar }: HeaderProps) => {
     const [isSheetOpen, setIsSheetOpen] = useState(false);
     const location = useLocation();
 
@@ -19,8 +24,8 @@ export const Header = () => {
     }, [location]);
 
     return (
-        <header className="sticky top-0 z-30 h-16 w-full border-b bg-background/80 px-4 sm:px-6 lg:px-8 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-            <div className="mx-auto w-full max-w-[1600px] flex items-center gap-4 h-full">
+        <header className="sticky top-0 z-30 h-16 w-full border-b bg-background/80 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="mx-auto w-full flex items-center gap-4 h-full">
                 {/* Mobile Sidebar Trigger */}
                 <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
                     <SheetTrigger asChild>
@@ -33,6 +38,18 @@ export const Header = () => {
                         <AppSidebar onItemClick={() => setIsSheetOpen(false)} />
                     </SheetContent>
                 </Sheet>
+
+                {/* Desktop Sidebar Trigger */}
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className="hidden md:flex shrink-0 text-muted-foreground hover:text-foreground"
+                    onClick={onToggleSidebar}
+                    aria-label={isSidebarOpen ? "Fechar barra lateral" : "Abrir barra lateral"}
+                >
+                    <PanelLeft className="h-5 w-5" />
+                </Button>
+
 
                 {/* Breadcrumbs or Page Title could go here */}
                 <div className="flex-1">
@@ -47,7 +64,7 @@ export const Header = () => {
                             <span className="text-xs">⌘</span>K
                         </kbd>
                     </Button>
-                    <ThemeToggle />
+
                 </div>
             </div>
         </header>
